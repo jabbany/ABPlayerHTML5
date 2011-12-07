@@ -1,0 +1,25 @@
+<html>
+<head>
+<style>@import 'css/default.css';</style>
+<script type="text/javascript" src="jslib/libabplayer.js"></script>
+<script type="text/javascript" src="jslib/libxml.js"></script>
+</head>
+<body></body>
+<div class="abp">
+	<div class="backdrop" style = "width:640px;height:480px;background:#000;"></div>
+	<div class="container" style="width:640px;"></div>
+</div>
+<script type="text/javascript">
+//<!--
+var cm = new CommentManager(document.getElementsByClassName('container')[0]);
+cm.init();
+function startClock(){
+	st = new Date().getTime();
+	clock =setInterval(function(){
+		var timePassed = new Date().getTime() - st;
+		cm.time(timePassed);
+	},10);
+}
+//-->
+</script>
+</html>
