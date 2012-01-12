@@ -1,7 +1,8 @@
 /***********************
 * ABPlayer HTML5 Core JS Library
+* Version : 1.01 Rev 20120110
 * == Licensed Under the MIT License : /LICENSING
-* Copyright (c) 2011 Jim Chen ( CQZ, Jabbany )
+* Copyright (c) 2012 Jim Chen ( CQZ, Jabbany )
 ************************/
 //Globally used methods
 var ABGlobal = {
@@ -39,6 +40,16 @@ var ABGlobal = {
 			}
 		}
 		return -1;
+	},
+	is_webkit:function(){
+		try{
+			if(/webkit/.test( navigator.userAgent.toLowerCase())){
+				return true;
+			}
+		}catch(e){
+			return false;
+		}
+		return false;
 	}
 };
 function CommentManager(stageObject,timeline){
@@ -48,11 +59,12 @@ function CommentManager(stageObject,timeline){
 	this.runline = [];
 	this.position = 0;
 	this.lastPos = 0;
+	this.filter = {doValidate:function(smth){return true;}};
 	this.csa = {
 		scroll: new CommentSpaceAllocator(0,0),
 		top:new TopCommentSpaceAllocator(0,0),
 		bottom:new BottomCommentSpaceAllocator(0,0),
-		reverse:new ReverseCommentSpaceAllocator(0,0),
+		reverse:new ReverseCommentSpaceAllocator(0,0)
 	};
 	this.initTimeline = function(){
 		//Order the timeline
@@ -97,9 +109,10 @@ function CommentManager(stageObject,timeline){
 		this.runline = [];
 	};
 	this.validate = function(cmtData){
+		/** TODO: improve filters **/
 		if(cmtData == null)
 			return false;
-		return true;
+		return this.filter.doValidate(cmtData);
 	};
 	this.time = function(time){
 		time = time - 1;
@@ -122,6 +135,9 @@ function CommentManager(stageObject,timeline){
 	this.sendComment = function(data){
 		var cmt = document.createElement('div');
 		cmt.className = 'cmt';
+		if(ABGlobal.is_webkit()){
+			cmt.className+=" webkit-helper";
+		}
 		cmt.stime = data.stime;
 		cmt.mode = data.mode;
 		cmt.data = data;
@@ -130,8 +146,8 @@ function CommentManager(stageObject,timeline){
 		if(data.color != null)
 			cmt.style.color = data.color;
 		this.stage.appendChild(cmt);
-		cmt.style.width = cmt.offsetWidth + "px";
-		cmt.style.height = cmt.offsetHeight + "px";
+		cmt.style.width = (cmt.offsetWidth + 1) + "px";
+		cmt.style.height = (cmt.offsetHeight + 1) + "px";
 		cmt.style.left = this.stage.offsetWidth + "px";
 		cmt.ttl = 4000;
 		switch(cmt.mode){
@@ -146,9 +162,15 @@ function CommentManager(stageObject,timeline){
 				cmt.ttl = data.duration;
 				cmt.dur = data.duration;
 				if(data.rY!=0 || data.rZ!=0){
-					//what the hell with 3d effects
-					//cmt.style.transform = "rotateY(" + data.rY + ")";
-					//cmt.style.transform = "rotateZ(" + data.rZ + ")";
+					/** TODO: revise when browser manufacturers make up their mind on Transform APIs **/
+					cmt.style.transform = "rotateY(" + data.rY + "deg)";
+					cmt.style.transform = "rotateZ(" + data.rZ + "deg)";
+					cmt.style.webkitTransform = "rotateY(" + data.rY + "deg)";
+					cmt.style.webkitTransform = "rotateZ(" + data.rZ + "deg)";
+					cmt.style.OTransform = "rotateY(" + data.rY + "deg)";
+					cmt.style.OTransform = "rotateZ(" + data.rZ + "deg)";
+					cmt.style.MozTransform = "rotateY(" + data.rY + "deg)";
+					cmt.style.MozTransform = "rotateZ(" + data.rZ + "deg)";
 				}
 			}break;
 		}
@@ -204,6 +226,15 @@ function CommentManager(stageObject,timeline){
 		clearInterval(cmTimer);
 		cmTimer = 0;
 	};
+}
+function CommentFilter(){
+	this.rulebook = [];
+	this.allowTypes = [0,true,true,true,true,true,true,true,true,true];
+	this.doValidate = function(cmtData){
+		if(this.allowTypes[cmtData.mode]!=true)
+			return false;
+		return true;
+	}
 }
 
 function CommentSpaceAllocator(w,h){

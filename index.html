@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <style>@import 'css/default.css';</style>
@@ -9,10 +10,36 @@
 	<div class="backdrop" style = "width:640px;height:480px;background:#000;"></div>
 	<div class="container" style="width:640px;"></div>
 </div>
+<div class="controls">
+	<input type="checkbox" id="cmShowNormal" checked onclick="updateOptions();">显示普通弹幕
+	<input type="checkbox" id="cmShowTop" checked onclick="updateOptions();">显示顶部弹幕
+	<input type="checkbox" id="cmShowBottom" checked onclick="updateOptions();">显示底部弹幕
+</div>
 <script type="text/javascript">
 //<!--
-var cm = new CommentManager(document.getElementsByClassName('container')[0]);
+try{
+	var cm = new CommentManager(document.getElementsByClassName('container')[0]);
+}catch(e){
+	var elem = document.getElementsByTagName('div');
+	for(var i = 0; i <elem.length;i++){
+		if(elem[i].className == 'container'){
+			var cm = new CommentManager(elem[i]);
+			break;
+		}
+	}
+}
+var cf = new CommentFilter();
+cm.filter = cf;
 cm.init();
+function updateOptions(){
+	var optNormal = document.getElementById('cmShowNormal').checked;
+	var optTop = document.getElementById('cmShowTop').checked;
+	var optBottom = document.getElementById('cmShowBottom').checked;
+	cf.allowTypes[1] = optNormal;
+	cf.allowTypes[4] = optBottom;
+	cf.allowTypes[5] = optTop;
+	console.log([optNormal,optBottom,optTop])
+}
 function startClock(){
 	st = new Date().getTime();
 	clock =setInterval(function(){

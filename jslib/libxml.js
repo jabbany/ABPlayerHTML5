@@ -1,24 +1,56 @@
 /***********************
 * XMLParser
 * == Licensed Under the MIT License : /LICENSING
-* Copyright (c) 2011 Jim Chen ( CQZ, Jabbany )
+* Copyright (c) 2012 Jim Chen ( CQZ, Jabbany )
 ************************/
-function CommentLoader(url,xcm){
-	if (window.XMLHttpRequest){
-		xmlhttp=new XMLHttpRequest();
-	}
-	else{
-		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.open("GET",url,true);
-	xmlhttp.send();
-	var cm = xcm;
-	xmlhttp.onreadystatechange = function(){
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-			cm.timeline = BilibiliParser(xmlhttp.responseXML);
-			cm.initTimeline();
+function CommentLoader(url,xcm,crossdomain){
+	if(crossdomain == null)
+		crossdomain = false;
+	if(!crossdomain){
+		if (window.XMLHttpRequest){
+			xmlhttp=new XMLHttpRequest();
 		}
+		else{
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.open("GET",url,true);
+		xmlhttp.send();
+		var cm = xcm;
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState==4 && xmlhttp.status==200){
+				cm.timeline = BilibiliParser(xmlhttp.responseXML);
+				cm.initTimeline();
+			}
+		}
+	}else{
+		var xhr = createCORSRequest("POST","corsproxy.php");
+		if(xhr == null)
+			return;
+		var cm = xcm;
+		var params = "CORSProxy_URI=" + urlencode(url) + "&CORSProxy_TYPE=GET&CORSProxy_REFERER=&CORSProxy_ENCTYPE=plain";
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr.setRequestHeader("Content-length", params.length);
+		xhr.onload = function(){
+			if (xmlhttp.readyState==4 && xmlhttp.status==200){
+				cm.timeline = BilibiliParser(xmlhttp.responseXML);
+				cm.initTimeline();
+			}
+		}
+		xhr.send(params);
 	}
+	
+}
+function createCORSRequest(method, url){
+    var xhr = new XMLHttpRequest();
+    if ("withCredentials" in xhr){
+        xhr.open(method, url, true);
+    } else if (typeof XDomainRequest != "undefined"){
+        xhr = new XDomainRequest();
+        xhr.open(method, url);
+    } else {
+        xhr = null;
+    }
+    return xhr;
 }
 function BilibiliParser(xmlDoc){
 	//Parse into Array
