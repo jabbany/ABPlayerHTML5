@@ -1,6 +1,13 @@
 # Update Log 升级日志
+* Ver 1.01.20120225 : New Interface
+    - Complete functional player model created
+	  完整可用的播放器
+	- Better support of the HTML5 video element
+	  引入HTML5视频体
+	- Experimental 'API Access' Mode to fetch information [Uses corsproxy.php]
+	  实验性的API接入 [PHP必须开启远程文件访问]
 * Ver 1.01.20120110 : Several Enhancements
-    - Added Support for initial rotation in comments
+	- Added Support for initial rotation in comments
 	  添加了弹幕旋转的支持
 	- Added Limited Support for filtering (by type, by property, by regex)
 	  添加了有限的弹幕过滤能力（按类型、属性或正则表达式过滤）
@@ -19,15 +26,25 @@
 
 *IE 4-5* : None - 不支持
 	Lack of support for DHTML
+	
 *IE 6* : Maybe - 不清楚
 	Some functionality _might_ be supported by IE 6 if _you are lucky_.
 	IE6 is not supported and we will be making no efforts to support it.
+	
 *IE 7/8* : Minimal - 欠支持
 	Supported: scroll, top, bottom, reverse, positioned
 	Unsupported: effects, opacity, rotation, highlighting
+	
+*IE 9+* : Many - 较多
+	Supported: scroll, top, bottom, reverse, positioned, effects, opacity, rotation
+	Unsupported: highlighting, shadows
+	Also lacks some other functions.
+	
 *Webkit (Chrome/Safari)* : Most - 最多
 	Webkit series supports the biggest set of functionality and better enhancements.
+	
 *Gecko (Firefox)* : A lot - 很多
-	Basic and extended functions, though not enhanced.
+	Basic and extended functions, though not enhanced. No support for H.264 Videos so please be warned.
+	
 *Presto (Opera)* : A lot
 	Basic and extended but few enhancements. Lack of testing done here.

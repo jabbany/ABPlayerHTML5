@@ -1,4 +1,3 @@
-/** CSS For ABPlayerHTML5 **/
 div.abp{
 	position:relative;
 }
@@ -24,6 +23,7 @@ div.abp{
 	position:absolute;
 	word-break:none;
 	text-wrap:none;
+	border:0 !important;
 }
 .webkit-helper{
 	text-shadow: none;

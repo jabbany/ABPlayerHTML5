@@ -55,6 +55,7 @@ var ABGlobal = {
 function CommentManager(stageObject,timeline){
 	var cmTimer = 0;
 	this.stage = stageObject;
+	this.def = {opacity:1};
 	this.timeline = [];
 	this.runline = [];
 	this.position = 0;
@@ -83,12 +84,15 @@ function CommentManager(stageObject,timeline){
 			}
 		});
 	};
-	this.init = function(){
-		//Init the CSAs
+	this.setBounds = function(){
 		this.csa.scroll.setBounds(this.stage.offsetWidth,this.stage.offsetHeight);
 		this.csa.top.setBounds(this.stage.offsetWidth,this.stage.offsetHeight);
 		this.csa.bottom.setBounds(this.stage.offsetWidth,this.stage.offsetHeight);
 		this.csa.reverse.setBounds(this.stage.offsetWidth,this.stage.offsetHeight);
+	};
+	this.init = function(){
+		//Init the CSAs
+		this.setBounds();
 		this.startTimer();
 	};
 	this.seek = function (time){
@@ -145,6 +149,8 @@ function CommentManager(stageObject,timeline){
 		cmt.style.fontSize = data.size + "px";
 		if(data.color != null)
 			cmt.style.color = data.color;
+		if(this.def.opacity != 1 && data.mode == 1)
+			cmt.style.opacity = this.def.opacity;
 		this.stage.appendChild(cmt);
 		cmt.style.width = (cmt.offsetWidth + 1) + "px";
 		cmt.style.height = (cmt.offsetHeight + 1) + "px";

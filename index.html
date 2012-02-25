@@ -1,52 +1,162 @@
-<!DOCTYPE html>
 <html>
 <head>
-<style>@import 'css/default.css';</style>
-<script type="text/javascript" src="jslib/libabplayer.js"></script>
-<script type="text/javascript" src="jslib/libxml.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="css/style.css" />
+<script src="jslib/mottobilibili.js"></script>
+<script src="jslib/libabplayer.js"></script>
+<script src="jslib/libxml.js"></script>
+<title>正在载入...</title>
 </head>
-<body></body>
-<div class="abp">
-	<div class="backdrop" style = "width:640px;height:480px;background:#000;"></div>
-	<div class="container" style="width:640px;"></div>
+<body>
+<div class="wrp">
+	<div class="tbox" id="tbox">
+		<div class="rbox" id="videoscreen">
+			<div class="rboxBg">
+				<div class="m20 abp" id="player">
+					<div id="clickCanvas" style="z-index:9999;position:absolute;top:0;left:0;right:0;bottom:0;" onclick="tpm();"></div>
+					<div id="commentCanvas" class="container" style="position:absolute;top:0;left:0;right:0;bottom:0;z-Index:222;" onresize="cm.setBounds();"></div>
+					<video id="abpVideo" data-setup="{}" width="100%" height="100%" preload="auto">
+					</video>
+				</div>
+			</div>
+		</div>
+		<div class="lbox b-w" id="rightbar">
+			<div class="nm">
+				<div class="avatar blk">
+				<a href="">
+					<img src="" width="30px" height="30px" alt="">
+				</a>
+				</div>
+				<div class="un2"><div style="margin-bottom:10px;">
+				<a href="" style="text-decoration:none;">这只是一个测试，请不要当真</a></div>
+				</div>
+			</div>
+			<h2 class="followBar fb">
+				<div class="vncnt blk">
+					<div class="vndiv"></div>
+				</div>
+				<div class="vncll blk">评论</div>
+			</h2>
+			<div style="padding:10px">
+				<ol class="cmt-list" id="cmlst">
+				</ol>
+				<ol class="cmt-list" >
+					<li style="text-align:center;"><a href="javascript:;" onclick="">加载更多评论</a></li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<div class="btmbar">
+		<div class="btmtxt blk">
+			<div class="btmhdr" id="vidName">（正在载入）</div>
+			<div class="btmmore" style="max-width:750px;" id="vidDescr"></div>
+		</div>
+		<div class="ltextbox blk">
+			<div role="button" class="b-a b-ab" onclick="tpm();" >
+				<span id="playBtnLabel">&#x25BA;</span>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="controls">
-	<input type="checkbox" id="cmShowNormal" checked onclick="updateOptions();">显示普通弹幕
-	<input type="checkbox" id="cmShowTop" checked onclick="updateOptions();">显示顶部弹幕
-	<input type="checkbox" id="cmShowBottom" checked onclick="updateOptions();">显示底部弹幕
-</div>
-<script type="text/javascript">
-//<!--
-try{
-	var cm = new CommentManager(document.getElementsByClassName('container')[0]);
-}catch(e){
-	var elem = document.getElementsByTagName('div');
-	for(var i = 0; i <elem.length;i++){
-		if(elem[i].className == 'container'){
-			var cm = new CommentManager(elem[i]);
-			break;
+<script>
+var blt = new BilibiliInteraction();
+var cm = new CommentManager($('commentCanvas'));
+var vc = new VideoController($('abpVideo'));
+cm.init();
+vc.monitor = function(time){
+	cm.time(time);
+};
+blt.apiKey = '30d25295cbcfeedc';
+blt.callback = function (vidObj){
+	$('vidName').innerText = vidObj.title;
+	document.title = vidObj.title;
+	$('vidDescr').innerText = vidObj.description;
+	_cb('vid2html5.php?vid=' + vidObj.vid,function(xhr){
+		if(xhr.responseText!='-1' && parseInt(xhr.responseText) > 0 ){
+			$('abpVideo').appendChild(_('source',{
+				'src':'http://v.iask.com/v_play_ipad.php?vid=' + xhr.responseText,
+				'type':"video/mp4"
+				}
+			));
 		}
+	});
+	CommentLoader("http://comment.bilibili.tv/dm," + vidObj.vid,cm);
+	$('abpVideo').volume = 0.6;
+}
+blt.callbackComments = function (cmobj){
+	//Default to 10 records per page
+	for(var i=0;i<Math.min(parseInt(cmobj.totalResult),10);i++){
+		var cmt = cmobj[i+""];
+		var li = _('li',{
+			className:'cmt'
+		});
+		li.appendChild(_('a',{
+			href:"#"
+		},_('img',{
+			src:cmt.face,
+			style:{width:'30px',height:'30px'},
+			alt:"",
+			className:'avatar blk'
+		})));
+		var tx = _('div',{
+			className:"cmt-text blk"
+		},_('a',{
+			href:"#",
+			style:{fontWeight:"normal"}
+		},document.createTextNode(cmt.nick)));
+		tx.appendChild(document.createTextNode(' - ' + cmt.msg));
+		tx.appendChild(_('div',{
+			className:"cmt-time"
+		},document.createTextNode(' ')));
+		li.appendChild(tx);
+		$('cmlst').appendChild(li);
 	}
 }
-var cf = new CommentFilter();
-cm.filter = cf;
-cm.init();
-function updateOptions(){
-	var optNormal = document.getElementById('cmShowNormal').checked;
-	var optTop = document.getElementById('cmShowTop').checked;
-	var optBottom = document.getElementById('cmShowBottom').checked;
-	cf.allowTypes[1] = optNormal;
-	cf.allowTypes[4] = optBottom;
-	cf.allowTypes[5] = optTop;
-	console.log([optNormal,optBottom,optTop])
+function fetchBilibili(avid){
+	blt.fetchInfo(avid);
+	blt.fetchFeedback(avid);
 }
-function startClock(){
-	st = new Date().getTime();
-	clock =setInterval(function(){
-		var timePassed = new Date().getTime() - st;
-		cm.time(timePassed);
-	},10);
+
+function tpm(){
+	vc.togglePlay(function(mode){
+		if(mode=='playing'){
+			$('playBtnLabel').innerHTML = '&#x2590;&nbsp;&#x2590;&nbsp;&nbsp;';
+			cm.stopTimer();
+			cm.startTimer();
+		}else{
+			$('playBtnLabel').innerHTML = '&#x25BA;';
+			cm.stopTimer();
+		}
+	});
 }
-//-->
+function widescreen(){
+	$('rightbar').style.display = 'none';
+	$('videoscreen').style.right = '0px';
+	$('tbox').style.right="5px";
+	$('tbox').style.top="5px";
+	$('tbox').style.left="5px";
+	$('tbox').style.bottom="75px";
+	cm.setBounds();
+}
+
+if(window.location.hash) {
+	var hash = window.location.hash.substring(1);
+	var cparams = hash.split('|');
+	if(cparams == null || cparams.length == 1 || cparams.length == 0){
+		fetchBilibili(hash);
+	}else{
+		fetchBilibili(cparams[0]);
+		if(cparams[1]=='widescreen'){
+			widescreen();
+		}else if(cparams[1]=='fullscreen'){
+			//Not supported.
+		}
+		if(cparams.length > 2)
+			cm.def.opacity = cparams[2];
+	}
+} else {
+	
+}
 </script>
+</body>
 </html>
