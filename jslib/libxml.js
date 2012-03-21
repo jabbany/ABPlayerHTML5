@@ -18,8 +18,14 @@ function CommentLoader(url,xcm,crossdomain){
 		var cm = xcm;
 		xmlhttp.onreadystatechange = function(){
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){
-				cm.timeline = BilibiliParser(xmlhttp.responseXML);
-				cm.initTimeline();
+				if(navigator.appName == 'Microsoft Internet Explorer'){
+					var f = new ActiveXObject("Microsoft.XMLDOM");
+					f.async = false;
+					f.loadXML(xmlhttp.responseText);
+					cm.load(BilibiliParser(f));
+				}else{
+					cm.load(BilibiliParser(xmlhttp.responseXML));
+				}
 			}
 		}
 	}else{
@@ -32,8 +38,7 @@ function CommentLoader(url,xcm,crossdomain){
 		xhr.setRequestHeader("Content-length", params.length);
 		xhr.onload = function(){
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){
-				cm.timeline = BilibiliParser(xmlhttp.responseXML);
-				cm.initTimeline();
+				cm.load(BilibiliParser(xmlhttp.responseXML));
 			}
 		}
 		xhr.send(params);
