@@ -1,4 +1,7 @@
 # Update Log 升级日志
+* Ver 1.04.20120322 : Updated the comment engine.
+	- Support for filters 过滤器
+	- Bugfix for 3D comments and timed movement comments. 修正了3D弹幕和定时移动弹幕的几个BUG。
 * Ver 1.01.20120225 : New Interface
     - Complete functional player model created
 	  完整可用的播放器
