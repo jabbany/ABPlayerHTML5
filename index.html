@@ -73,10 +73,11 @@ blt.callback = function (vidObj){
 	$('vidName').innerText = vidObj.title;
 	document.title = vidObj.title;
 	$('vidDescr').innerText = vidObj.description;
-	_cb('vid2html5.php?vid=' + vidObj.vid,function(xhr){
-		if(xhr.responseText!='-1' && parseInt(xhr.responseText) > 0 ){
+	_cb('corsproxy.php?addr=http%3A%2F%2Fvideo.sina.com.cn%2Finterface%2Fvideo_ids%2Fvideo_ids.php%3Fv%3D' + vidObj.vid,function(xhr){
+		if(xhr.responseText!=''){
+			var obj = JSON.parse(xhr.responseText);
 			$('abpVideo').appendChild(_('source',{
-				'src':'http://v.iask.com/v_play_ipad.php?vid=' + xhr.responseText,
+				'src':'http://v.iask.com/v_play_ipad.php?vid=' + obj['ipad_vid'],
 				'type':"video/mp4"
 				}
 			));
