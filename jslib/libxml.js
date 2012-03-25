@@ -3,47 +3,32 @@
 * == Licensed Under the MIT License : /LICENSING
 * Copyright (c) 2012 Jim Chen ( CQZ, Jabbany )
 ************************/
-function CommentLoader(url,xcm,crossdomain){
-	if(crossdomain == null)
-		crossdomain = false;
-	if(!crossdomain){
-		if (window.XMLHttpRequest){
-			xmlhttp=new XMLHttpRequest();
-		}
-		else{
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.open("GET",url,true);
-		xmlhttp.send();
-		var cm = xcm;
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState==4 && xmlhttp.status==200){
-				if(navigator.appName == 'Microsoft Internet Explorer'){
-					var f = new ActiveXObject("Microsoft.XMLDOM");
-					f.async = false;
-					f.loadXML(xmlhttp.responseText);
-					cm.load(BilibiliParser(f));
-				}else{
-					cm.load(BilibiliParser(xmlhttp.responseXML));
-				}
-			}
-		}
-	}else{
-		var xhr = createCORSRequest("POST","corsproxy.php");
-		if(xhr == null)
-			return;
-		var cm = xcm;
-		var params = "CORSProxy_URI=" + urlencode(url) + "&CORSProxy_TYPE=GET&CORSProxy_REFERER=&CORSProxy_ENCTYPE=plain";
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhr.setRequestHeader("Content-length", params.length);
-		xhr.onload = function(){
-			if (xmlhttp.readyState==4 && xmlhttp.status==200){
-				cm.load(BilibiliParser(xmlhttp.responseXML));
-			}
-		}
-		xhr.send(params);
+function CommentLoader(url,xcm,callback){
+	if(callback == null)
+		callback = function(){return;};
+	if (window.XMLHttpRequest){
+		xmlhttp=new XMLHttpRequest();
 	}
-	
+	else{
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+	var cm = xcm;
+	xmlhttp.onreadystatechange = function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			if(navigator.appName == 'Microsoft Internet Explorer'){
+				var f = new ActiveXObject("Microsoft.XMLDOM");
+				f.async = false;
+				f.loadXML(xmlhttp.responseText);
+				cm.load(BilibiliParser(f));
+				callback();
+			}else{
+				cm.load(BilibiliParser(xmlhttp.responseXML));
+				callback();
+			}
+		}
+	}
 }
 function createCORSRequest(method, url){
     var xhr = new XMLHttpRequest();
@@ -115,8 +100,8 @@ function BilibiliParser(xmlDoc){
 						obj.alphaTo = 1;
 						var tmp = adv[2].split('-');
 						if(tmp != null && tmp.length>1){
-							obj.alphaFrom = tmp[0];
-							obj.alphaTo = tmp[1];
+							obj.alphaFrom = parseFloat(tmp[0]);
+							obj.alphaTo = parseFloat(tmp[1]);
 						}
 					}catch(e){console.log('Error occurred in JSON parsing');}
 				}

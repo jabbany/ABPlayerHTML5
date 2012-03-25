@@ -69,19 +69,28 @@ function CommentManager(stageObject){
 		cmt.stime = data.stime;
 		cmt.mode = data.mode;
 		cmt.data = data;
+		cmt.appendChild(document.createTextNode(data.text));
 		cmt.innerText = data.text;
 		cmt.style.fontSize = data.size + "px";
 		if(data.color != null)
 			cmt.style.color = data.color;
 		if(this.def.opacity != 1 && data.mode == 1)
 			cmt.style.opacity = this.def.opacity;
+		if(data.alphaFrom != null)
+			cmt.style.opacity = data.alphaFrom;
 		cmt.ttl = 4000;
 		cmt.dur = 4000;
 		this.zindex ++;
 		cmt.style.zIndex = this.zindex;
 		return cmt;
 	};
-	this.startTimer = function(){
+	this.refreshRate = function(rate){
+		this.stopTimer();
+		this.startTimer(rate);
+	};
+	this.startTimer = function(timerDelay){
+		if(timerDelay == null)
+			timerDelay = 10;
 		if(__timer > 0)
 			return;
 		var lastTPos = new Date().getTime();
@@ -90,7 +99,7 @@ function CommentManager(stageObject){
 			var elapsed = new Date().getTime() - lastTPos;
 			lastTPos = new Date().getTime();
 			cmMgr.onTimerEvent(elapsed,cmMgr);
-		},10);
+		},timerDelay);
 	};
 	this.stopTimer = function(){
 		window.clearInterval(__timer);
