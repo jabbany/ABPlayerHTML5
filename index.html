@@ -73,11 +73,9 @@ blt.callback = function (vidObj){
 	$('vidName').innerText = vidObj.title;
 	document.title = vidObj.title;
 	$('vidDescr').innerText = vidObj.description;
-	_cb('corsproxy.php?addr=http%3A%2F%2Fvideo.sina.com.cn%2Finterface%2Fvideo_ids%2Fvideo_ids.php%3Fv%3D' + vidObj.vid,function(xhr){
-		if(xhr.responseText!=''){
-			var obj = JSON.parse(xhr.responseText);
-			$('abpVideo').appendChild(_('source',{
-				'src':'http://v.iask.com/v_play_ipad.php?vid=' + obj['ipad_vid'],
+	blt.fetchPlayUrl(vidObj.cid,function(obj){
+		$('abpVideo').appendChild(_('source',{
+				'src':obj.durl[0].url,
 				'type':"video/mp4"
 				}
 			));
@@ -85,12 +83,8 @@ blt.callback = function (vidObj){
 				$('abpVideo').load();
 				$('abpVideo').pause();
 			}
-		}
 	});
-	if(navigator.appName == 'Microsoft Internet Explorer'){
-		CommentLoader("corsproxy.php?unzip&addr=http%3A%2F%2Fcomment.bilibili.tv%2Fdm," + vidObj.vid,cm);
-	}else
-		CommentLoader("http://comment.bilibili.tv/dm," + vidObj.vid,cm);
+	CommentLoader("corsproxy.php?unzip&addr=http%3A%2F%2Fcomment.bilibili.tv%2F" + vidObj.cid + ".xml",cm);
 	$('abpVideo').volume = 0.6;
 }
 blt.callbackComments = function (cmobj){

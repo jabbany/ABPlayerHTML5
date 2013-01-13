@@ -32,6 +32,18 @@ function BilibiliInteraction(){
 		xhr.open("GET",'corsproxy.php?addr=' + encodeURIComponent(url),true);
 		xhr.send();
 	};
+	this.fetchPlayUrl = function(playKey,cb){
+		var url = "http://interface.bilibili.tv/playurl?type=mp4&otype=json&cid=" + playKey;
+		var xhr = new XMLHttpRequest();
+		var selfref = this;
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4){
+				selfref.doCallback(xhr.responseText,cb);
+			}
+		}
+		xhr.open("GET","corsproxy.php?addr=" + encodeURIComponent(url), true);
+		xhr.send();
+	};
 	this.doCallback = function(rt,cb){
 		if(rt == null || rt == 'error'){
 			console.log('Error : ' + rt);

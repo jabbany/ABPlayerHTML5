@@ -103,14 +103,11 @@
 	};
 	blt.apiKey = '30d25295cbcfeedc';
 	blt.callback = function (vidObj){
-		//$('vidName').innerText = vidObj.title;
 		document.title = vidObj.title;
-		//$('vidDescr').innerText = vidObj.description;
-		_cb('corsproxy.php?addr=http%3A%2F%2Fvideo.sina.com.cn%2Finterface%2Fvideo_ids%2Fvideo_ids.php%3Fv%3D' + vidObj.vid,function(xhr){
-			if(xhr.responseText!=''){
-				var obj = JSON.parse(xhr.responseText);
-				$('abpVideo').appendChild(_('source',{
-					'src':'http://v.iask.com/v_play_ipad.php?vid=' + obj['ipad_vid'],
+		blt.fetchPlayUrl(vidObj.cid,function(obj){
+			console.log(obj);
+			$('abpVideo').appendChild(_('source',{
+					'src':obj.durl[0].url,
 					'type':"video/mp4"
 					}
 				));
@@ -118,7 +115,6 @@
 					$('abpVideo').load();
 					$('abpVideo').pause();
 				}
-			}
 		});
 		var cbfunc = function(){
 			cl.bind(cm.timeline,['stime','text','date'],function(dobj){
@@ -139,10 +135,8 @@
 				cm.time(new Date().getTime() - start);
 			},10);*/
 		};
-		if(navigator.appName == 'Microsoft Internet Explorer'){
-			CommentLoader("corsproxy.php?xml&unzip&addr=http%3A%2F%2Fcomment.bilibili.tv%2Fdm," + vidObj.vid,cm,cbfunc);
-		}else
-			CommentLoader("http://comment.bilibili.tv/dm," + vidObj.vid,cm,cbfunc);
+
+		CommentLoader("corsproxy.php?xml&unzip&addr=http%3A%2F%2Fcomment.bilibili.tv%2F" + vidObj.cid + ".xml",cm,cbfunc);
 		$('abpVideo').volume = 0.6;
 	}
 	blt.fetchInfo('235031');

@@ -1,4 +1,6 @@
 # Update Log 升级日志
+* Ver 1.06.20130113 : Updated the bilibili connector
+	- Fixed the bilibili connector 修正了B站信息获取
 * Ver 1.04.20120322 : Updated the comment engine.
 	- Support for filters 过滤器
 	- Bugfix for 3D comments and timed movement comments. 修正了3D弹幕和定时移动弹幕的几个BUG。
