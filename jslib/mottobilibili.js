@@ -13,7 +13,7 @@ function BilibiliInteraction(){
 			}
 		};
 		var url = 'http://api.bilibili.tv/view?type=json&id=' + avid + '&appkey=' + this.apiKey + '&page=' + page;
-		xhr.open("GET",'corsproxy.php?addr=' + encodeURIComponent(url),true);
+		xhr.open("GET",'http://tools.kanoha.org/corsproxy.php?addr=' + encodeURIComponent(url),true);
 		xhr.send();
 	};
 	this.fetchFeedback = function(avid,page){
@@ -29,7 +29,7 @@ function BilibiliInteraction(){
 				selfref.doCallback(xhr.responseText,selfref.callbackComments);
 			}
 		};
-		xhr.open("GET",'corsproxy.php?addr=' + encodeURIComponent(url),true);
+		xhr.open("GET",'http://tools.kanoha.org/corsproxy.php?addr=' + encodeURIComponent(url),true);
 		xhr.send();
 	};
 	this.fetchPlayUrl = function(playKey,cb){
@@ -41,7 +41,7 @@ function BilibiliInteraction(){
 				selfref.doCallback(xhr.responseText,cb);
 			}
 		}
-		xhr.open("GET","corsproxy.php?addr=" + encodeURIComponent(url), true);
+		xhr.open("GET","http://tools.kanoha.org/corsproxy.php?addr=" + encodeURIComponent(url), true);
 		xhr.send();
 	};
 	this.doCallback = function(rt,cb){

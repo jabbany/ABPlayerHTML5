@@ -137,7 +137,7 @@
 			},10);*/
 		};
 
-		CommentLoader("corsproxy.php?xml&unzip&addr=http%3A%2F%2Fcomment.bilibili.tv%2F" + vidObj.cid + ".xml",cm,cbfunc);
+		CommentLoader("http://comment.bilibili.tv/" + vidObj.cid + ".xml",cm,cbfunc);
 		$('abpVideo').volume = 0.6;
 	}
 	blt.fetchInfo('629000');

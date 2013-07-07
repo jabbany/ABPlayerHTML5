@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 if(isset($_GET['xml']))
 	header('Content-Type: text/xml');
 if($_GET['addr'] != '' && preg_match('~https*://~iUs',$_GET['addr'])){
