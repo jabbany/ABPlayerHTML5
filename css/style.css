@@ -89,8 +89,18 @@
 	text-wrap:none;
 	border:0 !important;
 }
+.cmt.rshadow{
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.cmt.noshadow{
+	text-shadow: none !important;
+	-webkit-text-stroke: none !important;
+}
 .webkit-helper{
 	text-shadow: none;
 	-webkit-text-stroke: 0.2px black;
 	font-weight:bold;
+}
+.webkit-helper.rshadow{
+	-webkit-text-stroke: 0.2px white;
 }
