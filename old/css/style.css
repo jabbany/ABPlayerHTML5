@@ -1,0 +1,291 @@
+body {
+	font: normal 13px arial,"Microsoft Yahei",simsun,sans-serif;
+	visibility: visible;
+}
+h2 {
+	display: block;
+	font-size: 1.5em;
+	-webkit-margin-before: 0.83em;
+	-webkit-margin-after: 0.83em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	font-weight: bold;
+}
+h1, h2 {
+	border: 0;
+	margin: 0;
+}
+a {
+	color: #36C;
+	cursor: pointer;
+	text-decoration: none;
+}
+/***/
+/** CSS For ABPlayerHTML5 **/
+div.abp{
+	position:relative;
+}
+.abp .container{
+	overflow:hidden;
+	display:block;
+	z-index:9999;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
+.abp .container .cmt{
+	padding:0;margin:0;
+	font-family:Simhei,"宋体",Heiti,"MS Mincho","Meiryo","Microsoft Yahei",monospace;
+	font-weight:bold;
+	text-decoration:none;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	color:#fff;
+	letter-spacing:0;
+	font-size:25px;
+	position:absolute;
+	word-break:none;
+	text-wrap:none;
+	border:0 !important;
+}
+.webkit-helper{
+	text-shadow: none;
+	-webkit-text-stroke: 0.2px black;
+	font-weight:bold;
+	
+}
+/***** /ABP ***/
+.wrp {
+	background-color: black;
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+.btmbar{
+	background: #0A0A0A;
+	border-top: 1px solid #181818;
+	bottom: 0;
+	height: 70px;
+	min-width: 640px;
+	position: fixed;
+	width: 100%;
+	z-index: 110;
+}
+.btmtxt {
+	float: left;
+	margin: 20px 0 0 40px;
+	vertical-align: top;
+	font-size:14px;
+}
+.btmhdr{
+	color: white;
+	font-weight: bold;
+}
+.btmmore {
+color: #919191;
+margin-top: 4px;
+}
+.b-w::-webkit-scrollbar {
+height: 16px;
+overflow: visible;
+width: 16px;
+}
+.b-w::-webkit-scrollbar-thumb {
+background-color: rgba(0, 0, 0, .2);
+background-clip: padding-box;
+border: solid transparent;
+min-height: 28px;
+padding: 100px 0 0;
+box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);
+border-width: 1px 1px 1px 6px;
+}
+.b-w::-webkit-scrollbar-button {
+height: 0;
+width: 0;
+}
+.b-w::-webkit-scrollbar-track {
+background-clip: padding-box;
+border: solid transparent;
+border-width: 0 0 0 4px;
+}
+.b-w::-webkit-scrollbar-corner {
+background: transparent;
+}
+.blk {
+	position: relative;
+	display: -moz-inline-box;
+	display: inline-block;
+}
+/****/
+.tbox {
+	bottom: 111px;
+	left: 40px;
+	position: absolute;
+	right: 40px;
+	top: 41px;
+}
+.rboxBg {
+	transition: opacity .2s;
+	-moz-transition: opacity .2s;
+	-ms-transition: opacity .2s;
+	-o-transition: opacity .2s;
+	-webkit-transition: opacity .2s;
+	background: #0A0A0A;
+	border: 1px solid #181818;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.rbox{
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 300px;
+	top: 0;
+}
+.lbox {
+	-moz-transition: all .2s;
+	-ms-transition: all .2s;
+	-o-transition: all .2s;
+	-webkit-transition: all .2s;
+	background: white;
+	border-radius: 2px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 275px;
+	height:100%;
+	overflow:scroll;
+}
+.m20{
+	margin:20px;
+}
+#player{
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+}
+.followBar{
+	color: #999;
+	background-color: #FBFBFB;
+	background-image: url(collapse.png);
+}
+.fb{
+	-moz-transition: background-color,.2s;
+	-ms-transition: background-color,.2s;
+	-o-transition: background-color,.2s;
+	-webkit-transition: background-color,.2s;
+	background-position: 250px;
+	background-repeat: no-repeat;
+	border-top: 1px solid #E0E0E0;
+	display: table;
+	font-size: 13px;
+	padding: 12px 0;
+	transition: background-color,.2s;
+	white-space: nowrap;
+}
+/***/
+.nm{
+	display: table;
+	margin: 10px;
+}
+.avatar {
+	margin-right: 10px;
+	vertical-align: top;
+}
+.un2 {
+	display: table-cell;
+	vertical-align: top;
+}
+/***/
+.vndiv{
+	background: no-repeat url(panel.png) -86px 0;
+	height: 13px;
+	width: 14px;
+}
+.vncnt {
+	padding: 3px 15px;
+	margin:0;
+	vertical-align: middle;
+	width: 20px;
+}
+.vncll {
+	display: table-cell;
+	vertical-align: middle;
+	width: 100%;
+}
+.cmt {
+border-top: 1px dotted #E0E0E0;
+padding: 10px 0;
+white-space: nowrap;
+}
+.cmt-text {
+vertical-align: top;
+width: 199px;
+white-space: normal;
+word-wrap: break-word;
+}
+.cmt-time {
+color: #999;
+}
+.cmt-list {
+list-style: none;
+margin: 0;
+padding: 0 0 10px 0;
+}
+ol {
+	display: block;
+	list-style-type: decimal;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 40px;
+}
+/******Buttons *********/
+.ltextbox {
+	float: right;
+	margin: 20px 24px 0 0;
+	vertical-align: top;
+}
+.b-a {
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	cursor: default;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+	margin-right: 16px;
+	height: 27px;
+	line-height: 27px;
+	min-width: 54px;
+	outline: 0;
+	padding: 0 8px;
+}
+.b-ab {
+	-webkit-box-shadow: inset 0 1px 0 rgba(101,101,101,.1);
+	-moz-box-shadow: inset 0 1px 0 rgba(101,101,101,.1);
+	box-shadow: inset 0 1px 0 rgba(101,101,101,.1);
+	background: #232323;
+	color: rgba(255, 255, 255, .8);
+}
+.b-ab:hover {
+	-webkit-box-shadow: inset 0 1px 0 rgba(101,101,101,.1);
+	-moz-box-shadow: inset 0 1px 0 rgba(101,101,101,.1);
+	box-shadow: inset 0 1px 0 rgba(101,101,101,.1);
+	background-color: #232323;
+	background-image: -webkit-linear-gradient(top,#333,#222);
+	background-image: -moz-linear-gradient(top,#333,#222);
+	background-image: -ms-linear-gradient(top,#333,#222);
+	background-image: -o-linear-gradient(top,#333,#222);
+	background-image: linear-gradient(top,#333,#222);
+	color: white;
+}

@@ -1,9 +1,12 @@
 <?php
+if(isset($_GET['xml']))
+	header('Content-Type: text/xml');
 if($_GET['addr'] != '' && preg_match('~https*://~iUs',$_GET['addr'])){
 	if(isset($_GET['unzip'])){
-		echo gzinflate(file_get_contents($_GET['addr']));
+		$cont = gzinflate(file_get_contents($_GET['addr']));
 	}else{
-		echo file_get_contents($_GET['addr']);
+		$cont = file_get_contents($_GET['addr']);
 	}
 }
+echo $cont;
 ?>

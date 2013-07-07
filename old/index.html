@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" value="IE=9">
+<link rel="stylesheet" href="css/style.css" />
+<script src="jslib/mottobilibili.js"></script>
+<script src="jslib/libabplayer.js"></script>
+<script src="jslib/libxml.js"></script>
+<title>正在载入...</title>
+</head>
+<body>
+<div class="wrp">
+	<div class="tbox" id="tbox">
+		<div class="rbox" id="videoscreen">
+			<div class="rboxBg">
+				<div class="m20 abp" id="player">
+					<div id="clickCanvas" style="z-index:9999;position:absolute;top:0;left:0;right:0;bottom:0;" onclick="tpm();"></div>
+					<div id="commentCanvas" class="container" style="position:absolute;top:0;left:0;right:0;bottom:0;z-Index:222;" onresize="cm.setBounds();"></div>
+					<video id="abpVideo" autobuffer="true" data-setup="{}" width="100%" height="100%" style="z-index:1;width:100%;height:100%;top:0;left:0;right:0;bottom:0;" preload="auto">
+					</video>
+				</div>
+			</div>
+		</div>
+		<div class="lbox b-w" id="rightbar">
+			<div class="nm">
+				<div class="avatar blk">
+				<a href="">
+					<img src="" width="30px" height="30px" alt="">
+				</a>
+				</div>
+				<div class="un2"><div style="margin-bottom:10px;">
+				<a href="" style="text-decoration:none;">这只是一个测试，请不要当真</a></div>
+				</div>
+			</div>
+			<h2 class="followBar fb">
+				<div class="vncnt blk">
+					<div class="vndiv"></div>
+				</div>
+				<div class="vncll blk">评论</div>
+			</h2>
+			<div style="padding:10px">
+				<ol class="cmt-list" id="cmlst">
+				</ol>
+				<ol class="cmt-list" >
+					<li style="text-align:center;"><a href="javascript:;" onclick="">加载更多评论</a></li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<div class="btmbar">
+		<div class="btmtxt blk">
+			<div class="btmhdr" id="vidName">（正在载入）</div>
+			<div class="btmmore" style="max-width:750px;" id="vidDescr"></div>
+		</div>
+		<div class="ltextbox blk">
+			<div role="button" class="b-a b-ab" onclick="tpm();" >
+				<span id="playBtnLabel">&#x25BA;</span>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var blt = new BilibiliInteraction();
+var cm = new CommentManager($('commentCanvas'));
+var vc = new VideoController($('abpVideo'));
+cm.init();
+vc.monitor = function(time){
+	cm.time(time);
+};
+blt.apiKey = '30d25295cbcfeedc';
+blt.callback = function (vidObj){
+	$('vidName').innerText = vidObj.title;
+	document.title = vidObj.title;
+	$('vidDescr').innerText = vidObj.description;
+	blt.fetchPlayUrl(vidObj.cid,function(obj){
+		$('abpVideo').appendChild(_('source',{
+				'src':obj.durl[0].url,
+				'type':"video/mp4"
+				}
+			));
+			if(navigator.appName == 'Microsoft Internet Explorer'){
+				$('abpVideo').load();
+				$('abpVideo').pause();
+			}
+	});
+	CommentLoader("corsproxy.php?unzip&addr=http%3A%2F%2Fcomment.bilibili.tv%2F" + vidObj.cid + ".xml",cm);
+	$('abpVideo').volume = 0.6;
+}
+blt.callbackComments = function (cmobj){
+	//Default to 10 records per page
+	for(var i=0;i<Math.min(parseInt(cmobj.totalResult),10);i++){
+		var cmt = cmobj[i+""];
+		var li = _('li',{
+			className:'cmt'
+		});
+		li.appendChild(_('a',{
+			href:"#"
+		},_('img',{
+			src:cmt.face,
+			style:{width:'30px',height:'30px'},
+			alt:"",
+			className:'avatar blk'
+		})));
+		var tx = _('div',{
+			className:"cmt-text blk"
+		},_('a',{
+			href:"#",
+			style:{fontWeight:"normal"}
+		},document.createTextNode(cmt.nick)));
+		tx.appendChild(document.createTextNode(' - ' + cmt.msg));
+		tx.appendChild(_('div',{
+			className:"cmt-time"
+		},document.createTextNode(' ')));
+		li.appendChild(tx);
+		$('cmlst').appendChild(li);
+	}
+}
+function fetchBilibili(avid){
+	blt.fetchInfo(avid);
+	blt.fetchFeedback(avid);
+}
+
+function tpm(){
+	vc.togglePlay(function(mode){
+		if(mode=='playing'){
+			$('playBtnLabel').innerHTML = '&#x2590;&nbsp;&#x2590;&nbsp;&nbsp;';
+			cm.stopTimer();
+			cm.startTimer();
+		}else{
+			$('playBtnLabel').innerHTML = '&#x25BA;';
+			cm.stopTimer();
+		}
+	});
+}
+function widescreen(){
+	$('rightbar').style.display = 'none';
+	$('videoscreen').style.right = '0px';
+	$('tbox').style.right="5px";
+	$('tbox').style.top="5px";
+	$('tbox').style.left="5px";
+	$('tbox').style.bottom="75px";
+	cm.setBounds();
+}
+
+if(window.location.hash) {
+	var hash = window.location.hash.substring(1);
+	var cparams = hash.split('|');
+	if(cparams == null || cparams.length == 1 || cparams.length == 0){
+		fetchBilibili(hash);
+	}else{
+		fetchBilibili(cparams[0]);
+		if(cparams[1]=='widescreen'){
+			widescreen();
+		}else if(cparams[1]=='fullscreen'){
+			//Not supported.
+		}
+		if(cparams.length > 2)
+			cm.def.opacity = cparams[2];
+	}
+} else {
+	
+}
+</script>
+</body>
+</html>
