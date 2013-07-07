@@ -9,7 +9,8 @@
 	<script src="js/flexgrid.js"></script>
 	<script src="js/scrollbar.js"></script>
 	<script src="js/tabmanager.js"></script>
-	<script src="../jslib/libabplayer.js"></script>
+	<script src="../core/build/CommentCore.js"></script>
+	<script src="../core/build/Parsers.js"></script>
 	<script src="../jslib/libxml.js"></script>
 	<script src="../jslib/mottobilibili.js"></script>
 	<title>正在载入...</title>
@@ -139,7 +140,7 @@
 		CommentLoader("corsproxy.php?xml&unzip&addr=http%3A%2F%2Fcomment.bilibili.tv%2F" + vidObj.cid + ".xml",cm,cbfunc);
 		$('abpVideo').volume = 0.6;
 	}
-	blt.fetchInfo('235031');
+	blt.fetchInfo('629000');
 	function togglePlay(){
 		vc.togglePlay(function (state){
 			switch(state){
