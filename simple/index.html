@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" value="IE=9">
+		<link rel="stylesheet" href="css/base.css?1" />
+		<title>New Interface Test for ABPlayer</title>
+		<script src="CommentCore.js"></script>
+		<script src="../jslib/libxml.js"></script>
+		<script src="Parsers.js"></script>
+		<script src="player.js"></script>
+		<script type="text/javascript">
+			window.addEventListener("load",function(){
+				var inst = ABP.bind(document.getElementById("player1"));
+				CommentLoader("comment.xml", inst.cmManager);
+				inst.txtText.focus();
+				inst.btnFull.addEventListener("click", function(){
+					var player = document.getElementById("player1");
+					player.style.position = "fixed";
+					player.style.top = "0";
+					player.style.bottom = "0";
+					player.style.left = "0";
+					player.style.right = "0";
+					player.style.width = "";
+					player.style.height= "";
+					inst.cmManager.setBounds();
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="player1" class="ABP-Unit" style="width:640px;height:480px;">
+			<div class="ABP-Video">
+				<div class="ABP-Container"></div>
+				<video id="abp-video" autobuffer="true" data-setup="{}">
+					<source src="http://content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4" type="video/mp4">
+					<source src="http://content.bitsontherun.com/videos/bkaovAYt-27m5HpIu.webm" type="video/webm">
+					<p>Your browser does not support html5 video!</p>
+				</video>
+				
+			</div>
+			<div class="ABP-Text">
+				<input type="text">
+			</div>
+			<div class="ABP-Control">
+				<div class="button ABP-Play"></div>
+				<div class="progress-bar">
+					<div class="bar dark"></div>
+					<div class="bar"></div>
+				</div>
+				<div class="button ABP-CommentShow"></div>
+				<div class="button ABP-FullScreen"></div>
+			</div>
+		</div>
+	</body>
+</html>
