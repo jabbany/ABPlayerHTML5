@@ -44,7 +44,7 @@ var ABP = {
 		}
 		
 	}
-	ABP.load = function (inst, video, commentObject){
+	ABP.load = function (inst, videoProvider, commentProvider, commentReceiver){
 	
 	};
 	ABP.bind = function (playerUnit) {
@@ -211,6 +211,9 @@ var ABP = {
 										var percentage = Math.min(Math.max(pct, 1), 300);
 										ABPInst.video.playbackRate = percentage / 100;
 									}
+									if(ABPInst.cmManager !== null){
+										ABPInst.cmManager.clear();
+									}
 								}
 							}break;
 							case "cls":
@@ -246,18 +249,35 @@ var ABP = {
 						this.value = "";
 					}
 				}else if(k != null && k.keyCode === 38){
-					/** Volume up **/
-					ABPInst.video.volume = Math.round(Math.min((ABPInst.video.volume * 100) + 5, 100)) / 100;
-					ABPInst.removePopup();
-					var p = ABPInst.createPopup("目前音量：" + 
-										Math.round(ABPInst.video.volume * 100) + "%", 1000);
-					
+					if(!k.shiftKey){
+						/** Volume up **/
+						ABPInst.video.volume = Math.round(Math.min((ABPInst.video.volume * 100) + 5, 100)) / 100;
+						ABPInst.removePopup();
+						var p = ABPInst.createPopup("目前音量：" + 
+											Math.round(ABPInst.video.volume * 100) + "%", 800);
+					}else{
+						if(ABPInst.cmManager !== null){
+							var opa = Math.min(Math.round(ABPInst.cmManager.def.opacity * 100) + 5,100);
+							ABPInst.cmManager.def.opacity = opa / 100;
+							ABPInst.removePopup();
+							var p = ABPInst.createPopup("弹幕透明度：" + Math.round(opa) + "%",800);
+						}
+					}
 				}else if(k != null && k.keyCode === 40){
-					/** Volume Down **/
-					ABPInst.video.volume = Math.round(Math.max((ABPInst.video.volume * 100) - 5, 0)) / 100;
-					ABPInst.removePopup();
-					var p = ABPInst.createPopup("目前音量：" + 
-										Math.round(ABPInst.video.volume * 100) + "%", 1000);
+					if(!k.shiftKey){
+						/** Volume Down **/
+						ABPInst.video.volume = Math.round(Math.max((ABPInst.video.volume * 100) - 5, 0)) / 100;
+						ABPInst.removePopup();
+						var p = ABPInst.createPopup("目前音量：" + 
+											Math.round(ABPInst.video.volume * 100) + "%", 800);
+					}else{
+						if(ABPInst.cmManager !== null){
+							var opa = Math.max(Math.round(ABPInst.cmManager.def.opacity * 100) - 5,0);
+							ABPInst.cmManager.def.opacity = opa / 100;
+							ABPInst.removePopup();
+							var p = ABPInst.createPopup("弹幕透明度：" + Math.round(opa) + "%",800);
+						}
+					}
 				}
 			});
 		}
@@ -274,6 +294,12 @@ var ABP = {
 				}else
 					lastPosition = video.currentTime;
 			});
+			if(window){
+				window.addEventListener("resize", function(){
+					//Notify on resize
+					ABPInst.cmManager.setBounds();
+				});
+			}
 			video.addEventListener("timeupdate", function(){
 				if(video.hasStalled){
 					ABPInst.cmManager.startTimer();
