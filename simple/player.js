@@ -7,6 +7,7 @@ var ABP = {
 	btnDm:null,
 	video:null,
 };
+
 (function(){
 	"use strict";
 	if(!ABP) return;
@@ -47,7 +48,7 @@ var ABP = {
 	ABP.load = function (inst, videoProvider, commentProvider, commentReceiver){
 	
 	};
-	ABP.bind = function (playerUnit) {
+	ABP.bind = function (playerUnit, mobile) {
 		var ABPInst = {
 			btnPlay:null,
 			barTime:null,
@@ -103,6 +104,9 @@ var ABP = {
 				break;
 			}
 		}
+		if(_v[0] && mobile){
+			_v[0].style.bottom="0px";
+		}
 		var cmtc = _v[0].getElementsByClassName("ABP-Container");
 		if(cmtc.length > 0)
 			ABPInst.divComment = cmtc[0];
@@ -134,6 +138,44 @@ var ABP = {
 		var cmbtn = playerUnit.getElementsByClassName("ABP-CommentShow");
 		if(cmbtn.length > 0){
 			ABPInst.btnDm = cmbtn[0];
+		}
+		/** Bind mobile **/
+		if(mobile){
+			// Controls
+			var controls = playerUnit.getElementsByClassName("ABP-Control");
+			if(controls.length > 0){
+				ABPInst.controlBar = controls[0];
+			}
+			var timer = -1;
+			var hideBar = function(){
+						ABPInst.controlBar.style.display = "none";
+						ABPInst.divTextField.style.display = "none";
+			};
+			var listenerMove = function(){
+				ABPInst.controlBar.style.display = "";
+				ABPInst.divTextField.style.display = "";
+				try{
+					if (timer != -1){
+						clearInterval(timer);
+						timer = -1;
+					}
+					timer = setInterval(function(){
+						if(document.activeElement !== ABPInst.txtText){
+							hideBar();
+							clearInterval(timer);
+							timer = -1;
+						}
+					}, 2500);
+				} catch(e){
+					console.log(e);
+				}
+			};
+			playerUnit.addEventListener("touchmove",listenerMove);
+			playerUnit.addEventListener("mousemove",listenerMove);
+			timer = setTimeout(function(){
+				ABPInst.controlBar.style.display = "none";
+				ABPInst.divTextField.style.display = "none";
+			}, 4000);
 		}
 		if(video.isBound !== true){
 			video.addEventListener("progress",function(){
@@ -173,6 +215,51 @@ var ABP = {
 				}else{
 					video.pause();
 					this.className = "button ABP-Play";
+				}
+			});
+			playerUnit.addEventListener("keyup", function(e){
+				if(e && e.keyCode == 32 && document.activeElement !== ABPInst.txtText){
+					ABPInst.btnPlay.click();
+				}
+			});
+			playerUnit.addEventListener("touchmove", function(e){
+				event.preventDefault();
+			});
+			var _touch = null;
+			playerUnit.addEventListener("touchstart", function(e){
+				if(e.targetTouches.length > 0) {
+					//Determine whether we want to start or stop
+					_touch = e.targetTouches[0];
+				}
+			});
+			playerUnit.addEventListener("touchend", function(e){
+				if(e.changedTouches.length > 0) {
+					if(_touch != null){
+						var diffx = e.changedTouches[0].pageX - _touch.pageX;
+						var diffy = e.changedTouches[0].pageY - _touch.pageY;
+						if(Math.abs(diffx) < 20 && Math.abs(diffy) < 20){
+							_touch = null;
+							return;
+						}
+						if(Math.abs(diffx) > 3 * Math.abs(diffy)){
+							if(diffx > 0) {
+								if(video.paused){
+									ABPInst.btnPlay.click();
+								}
+							} else {
+								if(!video.paused){
+									ABPInst.btnPlay.click();
+								}
+							}
+						} else if (Math.abs(diffy) > 3 * Math.abs(diffx)) {
+							if(diffy < 0){
+								ABPInst.video.volume = Math.min(1,ABPInst.video.volume + 0.1)
+							}else{
+								ABPInst.video.volume = Math.max(0,ABPInst.video.volume - 0.1)
+							}
+						}
+						_touch = null;
+					}
 				}
 			});
 			video.addEventListener("ended", function(){
@@ -215,6 +302,15 @@ var ABP = {
 										ABPInst.cmManager.clear();
 									}
 								}
+							}break;
+							case "off":{
+								ABPInst.cmManager.display = false;
+								ABPInst.cmManager.clear();
+								ABPInst.cmManager.stopTimer();
+							}break;
+							case "on":{
+								ABPInst.cmManager.display = true;
+								ABPInst.cmManager.startTimer();
 							}break;
 							case "cls":
 							case "clear":{
@@ -284,6 +380,7 @@ var ABP = {
 		/** Create a bound CommentManager if possible **/
 		if(typeof CommentManager !== "undefined"){
 			ABPInst.cmManager = new CommentManager(ABPInst.divComment);
+			ABPInst.cmManager.display = true;
 			ABPInst.cmManager.init();
 			ABPInst.cmManager.clear();
 			var lastPosition = 0;
@@ -301,6 +398,7 @@ var ABP = {
 				});
 			}
 			video.addEventListener("timeupdate", function(){
+				if(ABPInst.cmManager.display === false) return;
 				if(video.hasStalled){
 					ABPInst.cmManager.startTimer();
 					video.hasStalled = false;
