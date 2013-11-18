@@ -9,6 +9,7 @@ gh-pages:
 	git checkout gh-pages
 	git merge gh-pages master
 	git push
+	git checkout master
 
 clean:
 	rm -rf build
