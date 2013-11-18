@@ -1,0 +1,171 @@
+.ABP-Unit{
+	position:relative;
+	color:#fff;
+	background:#000;
+	font-size:16px;
+	outline:none;
+}
+.ABP-Unit .ABP-Video{
+	position:absolute;
+	overflow:hidden;
+	top:0;left:0;right:0;bottom:72px;
+	background:#000;
+}
+.ABP-Unit .ABP-Video video{
+	width:100%;
+	height:100%;
+}
+
+.ABP-Unit .ABP-Video .ABP-Container{
+	overflow:hidden;
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.ABP-Unit .ABP-Video .ABP-Container .cmt{
+	white-space: pre-wrap;
+	padding:3px 0 0 0;margin:0;
+	line-height:100%;
+	font-family:Simhei, Simsun, Heiti, "wqy-zenhei", "MS Mincho", "Meiryo", "Microsoft Yahei", monospace;
+	font-weight:bold;
+	text-decoration:none;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	color:#fff;
+	letter-spacing:0;
+	font-size:25px;
+	position:absolute;
+	word-break:none;
+	text-wrap:none;
+	border:0 !important;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+}
+.ABP-Unit .ABP-Video .ABP-Container .cmt.noshadow{
+	text-shadow: none !important;
+	-webkit-text-stroke: none !important;
+}
+.ABP-Unit .ABP-Video .ABP-Container .cmt.rshadow{
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white !important;
+}
+
+.ABP-Unit .ABP-Text{
+	position:absolute;
+	bottom:41px;left:0;right:0;
+	height:30px;
+	padding:0;
+	border-top:1px solid #33b5e5;
+	background:#000;
+	opacity:0.9;
+}
+.ABP-Unit .ABP-Text .colorsel{
+	position:absolute;
+	top:0;left:0;right:0;bottom:0;
+}
+.ABP-Unit .ABP-Text input[type=text]{
+	background:transparent;
+	border:none;
+	padding:0;margin:0;
+	position:absolute;
+	display:block;
+	top:0;left:0;right:0;bottom:0;
+	vertical-align: middle;
+	color:#33b5e5;
+	outline:none;
+	font-family: monospace;
+	height:30px;
+	min-width:90%;
+	padding-left:10px;padding-right:10px;
+	font-size:18px;
+}
+.ABP-Unit .ABP-Control{
+	position:absolute;
+	bottom:0;left:0;right:0;
+	background:#000;
+	opacity:0.9;
+	border-top:1px solid #33b5e5;
+	height:40px;
+	-moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.ABP-Unit .ABP-Control:hover{
+	opacity:1;
+}
+
+.ABP-Unit .ABP-Control .button{
+	position:absolute;
+	overflow:hidden;
+	background-color:#000;
+	width:40px;
+	top:0;bottom:0;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	-moz-transition: background-color 0.2s ease-in-out;
+	-ms-transition: background-color 0.2s ease-in-out;
+	-o-transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.2s ease-in-out;
+}
+
+.ABP-Unit .ABP-Control .button:hover{
+	background-color:#6cf;
+}
+
+.ABP-Unit .ABP-Control .ABP-Play{
+	background-image:url(play.png);
+	background-size:cover;
+	left:0;
+}
+
+.ABP-Unit .ABP-Control .ABP-Play.ABP-Pause{
+	background-image:url(pause.png);
+}
+
+.ABP-Unit .ABP-Control .ABP-FullScreen{
+	background-image:url(fullscreen.png);
+	background-size:cover;
+	right:0;
+}
+
+.ABP-Unit .ABP-Control .ABP-CommentShow{
+	background-image:url(danmaku.png?);
+	background-size:cover;
+	top:0;right:40px;bottom:0;
+}
+.ABP-Unit .ABP-Control .progress-bar {
+	position:absolute;
+	overflow:hidden;
+	top:0;right:80px;bottom:0;left:40px;
+	background:#000;
+}
+
+.ABP-Unit .ABP-Control .progress-bar .bar{
+	position:absolute;
+	left:0;top:0;bottom:0;
+	background:#4399ee;
+	opacity:0.4;
+}
+
+.ABP-Unit .ABP-Control .progress-bar .bar.dark{
+	background:#0099cc;
+	opacity:1;
+}
+
+.ABP-Unit .ABP-Popup{
+	position:absolute;
+	background:#000;
+	border:1px solid #33b5e5;
+	left:10px;
+	padding:5px;
+	bottom:82px;
+	opacity:0.8;
+}

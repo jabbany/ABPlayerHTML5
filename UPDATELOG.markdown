@@ -1,7 +1,12 @@
 # Update Log 升级日志
+<<<<<<< HEAD
 * Ver 1.07.20130707 : Merge Upstream CommentCore into submodule
 	- Merge upstream CommentCore into submodule 合并了CommentCore的最新开发进度
 	- Created the gh-pages branch 生成了gh-pages分支
+=======
+* Ver 1.11.20131116 : Updated comment logic, redirect focus to simple player.
+
+>>>>>>> master
 * Ver 1.06.20130113 : Updated the bilibili connector
 	- Fixed the bilibili connector 修正了B站信息获取
 * Ver 1.04.20120322 : Updated the comment engine.

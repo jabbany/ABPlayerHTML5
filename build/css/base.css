@@ -32,9 +32,10 @@
 }
 
 .ABP-Unit .ABP-Video .ABP-Container .cmt{
+	white-space: pre-wrap;
 	padding:3px 0 0 0;margin:0;
 	line-height:100%;
-	font-family:Simhei,Simsun,Heiti,"MS Mincho","Meiryo","Microsoft Yahei",monospace;
+	font-family:Simhei, Simsun, Heiti, "wqy-zenhei", "MS Mincho", "Meiryo", "Microsoft Yahei", monospace;
 	font-weight:bold;
 	text-decoration:none;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -45,6 +46,8 @@
 	word-break:none;
 	text-wrap:none;
 	border:0 !important;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
 }
 .ABP-Unit .ABP-Video .ABP-Container .cmt.noshadow{
 	text-shadow: none !important;
