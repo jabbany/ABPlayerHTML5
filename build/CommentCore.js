@@ -399,15 +399,11 @@ function CommentManager(stageObject){
 	var __timer = 0;
 	var lastpos = 0;
 	this.stage = stageObject;
-<<<<<<< HEAD
-	this.def = {opacity:1};
-=======
 	this.def = {
 		opacity:1,
 		globalScale:1,
 		scrollScale:1
 	};
->>>>>>> master
 	this.timeline = [];
 	this.runline = [];
 	this.position = 0;
@@ -440,22 +436,12 @@ function CommentManager(stageObject){
 			cmt.className = 'cmt noshadow';
 		if(data.color != null)
 			cmt.style.color = data.color;
-<<<<<<< HEAD
-		if(data.color == "#000000")
-			cmt.className += " rshadow"
-=======
->>>>>>> master
 		if(this.def.opacity != 1 && data.mode == 1)
 			cmt.style.opacity = this.def.opacity;
 		if(data.alphaFrom != null)
 			cmt.style.opacity = data.alphaFrom;
-<<<<<<< HEAD
-		cmt.ttl = 4000;
-		cmt.dur = 4000;
-=======
 		cmt.ttl = Math.round(4000 * this.def.globalScale);
 		cmt.dur = Math.round(4000 * this.def.globalScale);
->>>>>>> master
 		return cmt;
 	};
 	this.startTimer = function(){
@@ -535,15 +521,12 @@ CommentManager.prototype.time = function(time){
 		else break;
 	}
 };
-<<<<<<< HEAD
-=======
 CommentManager.prototype.rescale = function(){
 	for(var i = 0; i < this.runline.length; i++){
 		this.runline[i].dur = Math.round(this.runline[i].dur * this.def.globalScale);
 		this.runline[i].ttl = Math.round(this.runline[i].ttl * this.def.globalScale);
 	}
 };
->>>>>>> master
 CommentManager.prototype.sendComment = function(data){
 	var cmt = document.createElement('div');
 	if(this.filter != null){
@@ -571,13 +554,8 @@ CommentManager.prototype.sendComment = function(data){
 		case 7:{
 			cmt.style.top = data.y + "px";
 			cmt.style.left = data.x + "px";
-<<<<<<< HEAD
-			cmt.ttl = data.duration;
-			cmt.dur = data.duration;
-=======
 			cmt.ttl = Math.round(data.duration * this.def.globalScale);
 			cmt.dur = Math.round(data.duration * this.def.globalScale);
->>>>>>> master
 			if(data.rY!=0 || data.rZ!=0){
 				/** TODO: revise when browser manufacturers make up their mind on Transform APIs **/
 				cmt.style.transformOrigin = "0% 0%";
