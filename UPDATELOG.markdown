@@ -1,4 +1,6 @@
 # Update Log 升级日志
+* Ver 1.11.20131116 : Updated comment logic, redirect focus to simple player.
+
 * Ver 1.06.20130113 : Updated the bilibili connector
 	- Fixed the bilibili connector 修正了B站信息获取
 * Ver 1.04.20120322 : Updated the comment engine.
