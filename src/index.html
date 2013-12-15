@@ -15,17 +15,6 @@
 				var inst = ABP.bind(document.getElementById("player1"), isMobile());
 				CommentLoader("comment.xml", inst.cmManager);
 				inst.txtText.focus();
-				inst.btnFull.addEventListener("click", function(){
-					var player = document.getElementById("player1");
-					player.style.position = "fixed";
-					player.style.top = "0";
-					player.style.bottom = "0";
-					player.style.left = "0";
-					player.style.right = "0";
-					player.style.width = "";
-					player.style.height= "";
-					inst.cmManager.setBounds();
-				});
 				inst.txtText.addEventListener("keydown", function(e){
 					if(e && e.keyCode === 13){
 						if(/^!/.test(this.value)) return; //Leave the internal commands

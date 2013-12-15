@@ -1,5 +1,6 @@
 all: clean
 	git submodule update
+	cd core; make clean
 	cd core; git pull origin master
 	cd core; make all
 	cd src; cp -r * ../build

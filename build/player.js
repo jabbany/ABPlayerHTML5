@@ -1,11 +1,5 @@
 var ABP = {
-	btnPlay:null,
-	barTime:null,
-	barLoad:null,
-	divComment:null,
-	btnFull:null,
-	btnDm:null,
-	video:null,
+	"version":"0.8.0"
 };
 
 (function(){
@@ -38,6 +32,39 @@ var ABP = {
 		}
 		return elem;
 	};
+	var addClass = function(elem, className){
+		if(elem == null) return;
+		var oldClass = elem.className.split(" ");
+		if(oldClass.indexOf(className) < 0){
+			oldClass.push(className);
+		}
+		elem.className = oldClass.join(" ");
+	};
+	var hasClass = function(elem, className){
+		if(elem == null) return false;
+		var oldClass = elem.className.split(" ");
+		return oldClass.indexOf(className) >= 0;
+	}
+	var removeClass = function(elem, className){
+		if(elem == null) return;
+		var oldClass = elem.className.split(" ");
+		if(oldClass.indexOf(className) >= 0){
+			oldClass.splice(oldClass.indexOf(className),1);
+		}
+		elem.className = oldClass.join(" ");
+	};
+	var bulidFromDefaults = function (n, d){
+		var r = {};
+		for(var i in d){
+			if(n && typeof n[i] !== "undefined")
+				r[i] = n[i];
+			else
+				r[i] = d[i];
+		}
+		return r;
+	}
+	
+	
 	ABP.create = function (element) {
 		var elem = element;
 		if (typeof element === "string") {
@@ -45,10 +72,12 @@ var ABP = {
 		}
 		
 	}
+	
 	ABP.load = function (inst, videoProvider, commentProvider, commentReceiver){
 	
 	};
-	ABP.bind = function (playerUnit, mobile) {
+	
+	ABP.bind = function (playerUnit, mobile, state) {
 		var ABPInst = {
 			btnPlay:null,
 			barTime:null,
@@ -60,6 +89,15 @@ var ABP = {
 			divTextField:null,
 			txtText:null,
 			cmManager:null,
+			defaults:{
+				w:0,
+				h:0
+			},
+			state:bulidFromDefaults(state, {
+				fullscreen: false,
+				commentVisible: true,
+				allowRescale: false
+			}),
 			createPopup:function(text, delay){
 				if(playerUnit.hasPopup === true)
 					return false;
@@ -94,6 +132,8 @@ var ABP = {
 			},
 		};
 		if(playerUnit === null || playerUnit.getElementsByClassName === null) return;
+		ABPInst.defaults.w = playerUnit.offsetWidth; 
+		ABPInst.defaults.h = playerUnit.offsetHeight;
 		var _v = playerUnit.getElementsByClassName("ABP-Video");
 		if(_v.length <= 0) return;
 		var video = null;
@@ -119,6 +159,7 @@ var ABP = {
 		/** Bind the Loading Progress Bar **/
 		var pbar = playerUnit.getElementsByClassName("progress-bar");
 		if(pbar.length <= 0) return;
+		ABPInst.barHitArea = pbar[0];
 		var pbars = pbar[0].getElementsByClassName("bar");
 		ABPInst.barTime = pbars[0];
 		ABPInst.barLoad = pbars[1];
@@ -204,9 +245,47 @@ var ABP = {
 					ABPInst.barLoad.style.width = perc + "%";
 				}
 			});
+			ABPInst.btnFull.addEventListener("click", function(){
+				ABPInst.state.fullscreen = hasClass(playerUnit, "ABP-FullScreen");
+				if(!ABPInst.state.fullscreen){
+					addClass(playerUnit, "ABP-FullScreen");
+				}else{
+					removeClass(playerUnit, "ABP-FullScreen");
+				}
+				ABPInst.state.fullscreen = !ABPInst.state.fullscreen;
+				if(ABPInst.cmManager)
+					ABPInst.cmManager.setBounds();
+				if(!ABPInst.state.allowRescale) return;
+				if(ABPInst.state.fullscreen){
+					if(ABPInst.defaults.w >0){
+						ABPInst.cmManager.def.scrollScale = playerUnit.offsetWidth / ABPInst.defaults.w;
+					}
+				}else{
+					ABPInst.cmManager.def.scrollScale = 1;
+				}
+			});
 			ABPInst.barTime.style.width = "0%";
+			var dragging = false;
 			video.addEventListener("timeupdate", function(){
-				ABPInst.barTime.style.width = ((video.currentTime / video.duration) * 100) + "%";
+				if(!dragging)
+					ABPInst.barTime.style.width = ((video.currentTime / video.duration) * 100) + "%";
+			});
+			ABPInst.barHitArea.addEventListener("mousedown", function(e){
+				dragging = true;
+			});
+			ABPInst.barHitArea.addEventListener("mouseup", function(e){
+				dragging = false;
+				var newTime = ((e.x - this.offsetLeft) / this.offsetWidth) * video.duration;
+				if(Math.abs(newTime - video.currentTime) > 4){
+					if(ABPInst.cmManager)
+						ABPInst.cmManager.clear();
+				}
+				video.currentTime = newTime;
+			});
+			ABPInst.barHitArea.addEventListener("mousemove", function(e){
+				if(dragging){
+					ABPInst.barTime.style.width =((e.x - this.offsetLeft) * 100 / this.offsetWidth) + "%";
+				}
 			});
 			ABPInst.btnPlay.addEventListener("click", function(){
 				if(video.paused){
@@ -415,9 +494,9 @@ var ABP = {
 				}catch(err){}	
 			});
 			video.addEventListener("ratechange", function(){
-				if(ABPInst.cmManager.scaleFactor != null){
+				if(ABPInst.cmManager.def.globalScale != null){
 					if(video.playbackRate !== 0){
-						ABPInst.cmManager.scaleFactor = (1 / video.playbackRate);
+						ABPInst.cmManager.def.globalScale = (1 / video.playbackRate);
 						ABPInst.cmManager.rescale();
 					}
 				}

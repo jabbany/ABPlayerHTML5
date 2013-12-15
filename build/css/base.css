@@ -5,6 +5,15 @@
 	font-size:16px;
 	outline:none;
 }
+.ABP-Unit.ABP-FullScreen{
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	width:auto !important;
+	height:auto !important;
+	position:fixed;
+}
 .ABP-Unit .ABP-Video{
 	position:absolute;
 	overflow:hidden;
@@ -144,6 +153,7 @@
 .ABP-Unit .ABP-Control .progress-bar {
 	position:absolute;
 	overflow:hidden;
+	cursor:default;
 	top:0;right:80px;bottom:0;left:40px;
 	background:#000;
 }
