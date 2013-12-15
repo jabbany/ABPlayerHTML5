@@ -275,7 +275,7 @@ var ABP = {
 			});
 			ABPInst.barHitArea.addEventListener("mouseup", function(e){
 				dragging = false;
-				var newTime = ((e.x - this.offsetLeft) / this.offsetWidth) * video.duration;
+				var newTime = ((e.layerX) / this.offsetWidth) * video.duration;
 				if(Math.abs(newTime - video.currentTime) > 4){
 					if(ABPInst.cmManager)
 						ABPInst.cmManager.clear();
@@ -284,7 +284,7 @@ var ABP = {
 			});
 			ABPInst.barHitArea.addEventListener("mousemove", function(e){
 				if(dragging){
-					ABPInst.barTime.style.width =((e.x - this.offsetLeft) * 100 / this.offsetWidth) + "%";
+					ABPInst.barTime.style.width =((e.layerX) * 100 / this.offsetWidth) + "%";
 				}
 			});
 			ABPInst.btnPlay.addEventListener("click", function(){
