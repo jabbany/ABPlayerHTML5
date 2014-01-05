@@ -96,7 +96,8 @@ var ABP = {
 			state:bulidFromDefaults(state, {
 				fullscreen: false,
 				commentVisible: true,
-				allowRescale: false
+				allowRescale: false,
+				autosize: false
 			}),
 			createPopup:function(text, delay){
 				if(playerUnit.hasPopup === true)
@@ -298,6 +299,8 @@ var ABP = {
 			});
 			playerUnit.addEventListener("keyup", function(e){
 				if(e && e.keyCode == 32 && document.activeElement !== ABPInst.txtText){
+					if(e.preventDefault)
+						e.preventDefault();
 					ABPInst.btnPlay.click();
 				}
 			});
@@ -463,6 +466,30 @@ var ABP = {
 			ABPInst.cmManager.init();
 			ABPInst.cmManager.clear();
 			var lastPosition = 0;
+			if(ABPInst.state.autosize){
+				var autosize = function(){
+					if(video.videoHeight === 0 || video.videoWidth === 0){
+						return;
+					}
+					var aspectRatio = video.videoHeight / video.videoWidth;
+					// We only autosize within the bounds
+					var boundW = playerUnit.offsetWidth;
+					var boundH = playerUnit.offsetHeight;
+					var oldASR = boundH / boundW;
+					
+					if(oldASR < aspectRatio){
+						playerUnit.style.width = (boundH / aspectRatio) + "px";
+						playerUnit.style.height = boundH  + "px";
+					}else{
+						playerUnit.style.width = boundW + "px";
+						playerUnit.style.height = (boundW * aspectRatio) + "px";
+					}
+					
+					ABPInst.cmManager.setBounds();
+				};
+				video.addEventListener("loadedmetadata", autosize);
+				autosize();
+			}
 			video.addEventListener("progress", function(){
 				if(lastPosition == video.currentTime){
 					video.hasStalled = true;
