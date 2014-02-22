@@ -1,4 +1,6 @@
 # Update Log 升级日志
+* Ver 1.13.20140222 : Add event handlers and automatic generation of video component.
+
 * Ver 1.11.20131116 : Updated comment logic, redirect focus to simple player.
 
 * Ver 1.07.20130707 : Merge Upstream CommentCore into submodule

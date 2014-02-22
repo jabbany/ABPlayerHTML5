@@ -1,62 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="X-UA-Compatible" value="IE=9">
-		<link rel="stylesheet" href="css/base.css?1" />
-		<title>New Interface Test for ABPlayer</title>
-		<script src="mobile.js"></script>
-		<script src="CommentCore.js"></script>
-		<script src="libxml.js"></script>
-		<script src="Parsers.js"></script>
-		<script src="player.js"></script>
-		<script type="text/javascript">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>ABPlayerHTML5 by Jabbany</title>
+   	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/base.css?1" />
+	<script src="mobile.js"></script>
+	<script src="CommentCore.js"></script>
+	<script src="libxml.js"></script>
+	<script src="Parsers.js"></script>
+	<script src="player.js"></script>
+	<script type="text/javascript">
+			var $_ = function(e){return document.getElementById(e);};
 			window.addEventListener("load",function(){
-				var inst = ABP.bind(document.getElementById("player1"), isMobile());
-				CommentLoader("comment.xml", inst.cmManager);
-				inst.txtText.focus();
-				inst.txtText.addEventListener("keydown", function(e){
-					if(e && e.keyCode === 13){
-						if(/^!/.test(this.value)) return; //Leave the internal commands
-						inst.txtText.value = "";
-					}
+				$_("click-load").addEventListener("click", function(e){
+					if(e && e.preventDefault)
+						e.preventDefault();
+					var inst = ABP.create(document.getElementById("load-player"), {
+						"src":document.getElementById("new-video"),
+						"width":800,
+						"height":522
+					});
+					CommentLoader("comment.xml", inst.cmManager);
+					$_("click-load").style.display= "none";
 				});
-				window.abpinst = inst;
 			});
-		</script>
-	</head>
-	<body>
-		<div id="player1" class="ABP-Unit" style="width:640px;height:480px;" tabindex="1">
-			<div class="ABP-Video">
-				<div class="ABP-Container"></div>
-				<video id="abp-video" autobuffer="true" data-setup="{}">
-					<source src="https://s3-us-west-1.amazonaws.com/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
-					<source src="https://s3-us-west-1.amazonaws.com/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
-					<!-- // END VIDEO 1-->
-					<!-- START VIDEO 2
-					<source src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
-					// END VIDEO 2-->
-					<!-- START VIDEO 3
-					<source src="http://content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4" type="video/mp4">
-					<source src="http://content.bitsontherun.com/videos/bkaovAYt-27m5HpIu.webm" type="video/webm">
-					// END VIDEO 3-->
-					<p>Your browser does not support html5 video!</p>
-				</video>
-				
-			</div>
-			<div class="ABP-Text">
-				<input type="text">
-			</div>
-			<div class="ABP-Control">
-				<div class="button ABP-Play"></div>
-				<div class="progress-bar">
-					<div class="bar dark"></div>
-					<div class="bar"></div>
-				</div>
-				<div class="button ABP-CommentShow"></div>
-				<div class="button ABP-FullScreen"></div>
-			</div>
-		</div>
-		<p>Supports mobile. Swipe right to play, left to pause. Up to increase volume and down to decrease volume. Mobile interface auto-enabled on mobile devices.</p>
-	</body>
+	</script>
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/jabbany/ABPlayerHTML5">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/jabbany/ABPlayerHTML5/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/jabbany/ABPlayerHTML5/tarball/master">TAR</a></li>
+          <li class="downloads"><a href="demo.html">Demo</a></li>
+          <li class="title">DOWNLOADS / 下载</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>ABPlayerHTML5</h1>
+          
+          <p>一个可扩展的弹幕播放器的HTML5实现范例</p>
+          <span class="credits left">Project maintained by / 维护者: <a href="https://github.com/jabbany">jabbany</a></span>
+          <span class="credits right">Theme Author / 介绍页面主题作者: <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>ABPlayerHTML5 - Videos+Danmaku</h1>
+        <hr>
+		<p>ABPlayerHTML5 is a simplistic modern danmaku video player. It is intended as a replacement for the Flash based ABPlayer and as a catalyst for the new generation of HTML5 danmaku video players. This project implements a sleek minimal video player that serves as a reference implementation.</p>
+		<p>ABPlayerHTML5 是一个简单易懂的现代弹幕魔法播放器。这个项目意在取代基于 Flash 的 ABPlayer，同时也希望能为新一代的HTML5弹幕播放器打造一个实现范例。这个播放器將用相对通俗易懂的方法，实现最基础的弹幕播放器功能，以供开发者参照。</p>
+	<h2>Examples / 使用范例</h2>
+	<hr>
+	<video id="new-video" autobuffer="true" data-setup="{}" width="800" height="450">
+		<source src="https://s3-us-west-1.amazonaws.com/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
+		<source src="https://s3-us-west-1.amazonaws.com/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
+		<p>Your browser does not support html5 video!</p>
+	</video>
+	<div id="load-player"></div>
+	<a id="click-load" class="pbutton" href="#">Load ABPlayerHTML5 Binding</a><br>
+	<p>To load the ABPlayer code in your web application insert the following lines of code in the <code>&lt;head&gt;</code> area.</p>
+	<pre><code>&lt;link rel="stylesheet" href="css/base.css?1" /&gt;
+&lt;script src="CommentCore.js"&gt;&lt;/script&gt;
+&lt;script src="libxml.js"&gt;&lt;/script&gt;
+&lt;script src="Parsers.js"&gt;&lt;/script&gt;
+&lt;script src="player.js"&gt;&lt;/script&gt;
+</code></pre>
+	<p>Also copy the corresponding files from <code>build/</code>. </p>
+	<p>
+	Then to hook bindings you can use:
+	</p>
+	<pre><code>var inst = ABP.create( document.getElementById('load-player'), {
+	'src': document.getElementById('new-video'),
+	'width': 800,
+	'height': 522
+});
+CommentLoader('somecommentfile.xml', inst.cmManager);</code></pre>
+	
+	<p>For ther first parameter you should give a DOM element or a DOM id name. If your element is already an <code>.ABP-Unit</code>, invoking create will clear any existing inner elements and bind a new player on the spot. If the element specified is not a danmaku player, we will append a new danmaku player element to the end of the given element.<br> The <code>src</code> field for the parameters will specify where the video source is. If it's a DOM element we just incorporate it as the video player, if it is a list of URLs we will create a player unit with the sources specified.</p>
+	
+	<p>The second line of code invokes a load process that reads in danmaku comments through AJAX and pumps them into the comment manager part of the player.</p>
+      </section>
+    <hr>
+    <h2>Extending / 扩展</h2>
+    <hr>
+    <p>The basic player does not provide any comment sending abilities. To send comments you should hook onto the <code>inst.txtText</code> text input and capture keypresses to send comments.</p>
+    <p>播放器本体比较弱，同时也不提供发送弹幕的服务。希望发送弹幕的话，请挂载一个监听器到 <code>inst.txtText</code> 元素上来监听键盘动作。</p>
+    <p>For more detailed information about the API please look in <code>docs/</code> / 请阅读<code>docs/</code>中的相应文档来获取API 的更详细信息。</p>
+    <hr>
+    <h2>Flexibility</h2>
+    <hr>
+    <p><a href="demos/coverflow.html">Coverflow + Danmaku Demo</a> : Uses coverflow for jQuery + ABPlayerHTML5 Dynamic loading.</p>
+    
+	<h2>License / 许可</h2>
+	<p>Copyright (c) 2014 Jim Chen (http://kanoha.org/), under the MIT license.</p>
+    </div>
+  </body>
 </html>
