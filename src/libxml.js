@@ -6,6 +6,7 @@
 function CommentLoader(url,xcm,callback){
 	if(callback == null)
 		callback = function(){return;};
+	var xmlhttp = null;
 	if (window.XMLHttpRequest){
 		xmlhttp=new XMLHttpRequest();
 	}

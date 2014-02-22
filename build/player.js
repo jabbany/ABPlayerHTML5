@@ -25,7 +25,10 @@ var ABP = {
 			}
 		}
 		if (children) {
-			elem.appendChild(children);
+			for(var i = 0; i < children.length; i++){
+				if(children[i] != null)
+					elem.appendChild(children[i]);
+			}
 		}
 		if (callback && typeof callback === "function") {
 			callback(elem);
@@ -53,7 +56,7 @@ var ABP = {
 		}
 		elem.className = oldClass.join(" ");
 	};
-	var bulidFromDefaults = function (n, d){
+	var buildFromDefaults = function (n, d){
 		var r = {};
 		for(var i in d){
 			if(n && typeof n[i] !== "undefined")
@@ -65,16 +68,88 @@ var ABP = {
 	}
 	
 	
-	ABP.create = function (element) {
+	ABP.create = function (element, params) {
 		var elem = element;
+		if(!params){
+			params = {};
+		}
+		params = buildFromDefaults(params,{
+			"replaceMode":true,
+			"width":512,
+			"height":384,
+			"src":"",
+			"mobile":false
+		});
 		if (typeof element === "string") {
 			elem = $(element);
 		}
-		
+		// 'elem' is the parent container in which we create the player.
+		if(!hasClass(elem, "ABP-Unit")){
+			// Assuming we are injecting
+			var container = _("div", {
+				"className": "ABP-Unit",
+				"style":{
+					"width": params.width + "px",
+					"height": params.height + "px"
+				}
+			});
+			elem.appendChild(container);
+		}else{
+			container = elem;
+		}
+		// Create the innards if empty
+		if(container.children.length > 0 && params.replaceMode){
+			container.innerHTML = "";
+		}
+		if(typeof params.src === "string"){
+			src = _("video",{
+				
+			},[
+				
+			]);
+		}
+		container.appendChild(_("div",{
+				"className" : "ABP-Video"	
+			}, [_("div", {
+					"className":"ABP-Container"
+				}),
+				params.src
+		]));		
+		container.appendChild(_("div", {
+					"className":"ABP-Text",
+			},[
+				_("input", {
+					"type":"text"
+				})
+		]));
+		container.appendChild(_("div", {
+					"className":"ABP-Control"
+			},[
+				_("div", {
+						"className": "button ABP-Play"
+				}),
+				_("div", {
+					"className": "progress-bar"
+				},[
+					_("div", {
+						"className": "bar dark"
+					}),
+					_("div", {
+						"className": "bar"
+					})
+				]),
+				_("div", {
+					"className": "button ABP-CommentShow"
+				}),
+				_("div", {
+					"className": "button ABP-FullScreen"
+				})
+		]));
+		return ABP.bind(container, params.mobile);
 	}
 	
 	ABP.load = function (inst, videoProvider, commentProvider, commentReceiver){
-	
+		// 
 	};
 	
 	ABP.bind = function (playerUnit, mobile, state) {
@@ -93,7 +168,7 @@ var ABP = {
 				w:0,
 				h:0
 			},
-			state:bulidFromDefaults(state, {
+			state:buildFromDefaults(state, {
 				fullscreen: false,
 				commentVisible: true,
 				allowRescale: false,
@@ -265,16 +340,6 @@ var ABP = {
 					ABPInst.cmManager.def.scrollScale = 1;
 				}
 			});
-			ABPInst.btnDm.addEventListener("click", function(){
-                if(ABPInst.cmManager.display == false){
-                    ABPInst.cmManager.display = true;
-                    ABPInst.cmManager.startTimer();
-                }else{
-                    ABPInst.cmManager.display = false;
-                    ABPInst.cmManager.clear();
-                    ABPInst.cmManager.stopTimer();
-                }   
-            }); 
 			ABPInst.barTime.style.width = "0%";
 			var dragging = false;
 			video.addEventListener("timeupdate", function(){
