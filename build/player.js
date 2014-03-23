@@ -340,6 +340,16 @@ var ABP = {
 					ABPInst.cmManager.def.scrollScale = 1;
 				}
 			});
+			ABPInst.btnDm.addEventListener("click", function(){
+				if(ABPInst.cmManager.display == false){
+					ABPInst.cmManager.display = true;
+					ABPInst.cmManager.startTimer();
+				}else{
+					ABPInst.cmManager.display = false;
+					ABPInst.cmManager.clear();
+					ABPInst.cmManager.stopTimer();
+				}   
+			}); 
 			ABPInst.barTime.style.width = "0%";
 			var dragging = false;
 			video.addEventListener("timeupdate", function(){
