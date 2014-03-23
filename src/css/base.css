@@ -33,6 +33,7 @@
 	left:0;
 	bottom:0;
 	right:0;
+	border:0;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -55,7 +56,6 @@
 	position:absolute;
 	word-break:none;
 	text-wrap:none;
-	border:0 !important;
 	-webkit-text-size-adjust: none;
 	text-size-adjust: none;
 }
