@@ -94,6 +94,8 @@ function BilibiliParser(xmlDoc){
 	for(var i=0;i<elems.length;i++){
 		if(elems[i].getAttribute('p') != null){
 			var opt = elems[i].getAttribute('p').split(',');
+			if(!elems[i].childNodes[0])
+			  continue;
 			var text = elems[i].childNodes[0].nodeValue;
 			var obj = {};
 			obj.stime = Math.round(parseFloat(opt[0]*1000));
@@ -113,14 +115,14 @@ function BilibiliParser(xmlDoc){
 					try{
 						adv = JSON.parse(format(text));
 						obj.shadow = true;
-						obj.x = parseInt(adv[0]);
-						obj.y = parseInt(adv[1]);
+						obj.x = adv[0];
+						obj.y = adv[1];
 						obj.text = adv[4].replace(/(\/n|\\n|\n|\r\n)/g, "\n");
 						obj.rZ = 0;
 						obj.rY = 0;
 						if(adv.length >= 7){
-							obj.rZ = parseInt(adv[5]);
-							obj.rY = parseInt(adv[6]);
+							obj.rZ = adv[5];
+							obj.rY = adv[6];
 						}
 						obj.movable = false;
 						if(adv.length >= 11){
@@ -135,12 +137,6 @@ function BilibiliParser(xmlDoc){
 								obj.moveDelay = adv[10];
 							if(adv.length > 11){
 								obj.shadow = adv[11];
-								if(obj.shadow === "true"){
-									obj.shadow = true;
-								}
-								if(obj.shadow === "false"){
-									obj.shadow = false;
-								}
 								if(adv[12]!=null)
 									obj.font = adv[12];
 							}
@@ -160,8 +156,6 @@ function BilibiliParser(xmlDoc){
 						console.log('[Err] Error occurred in JSON parsing');
 						console.log('[Dbg] ' + text);
 					}
-				}else if(obj.mode == 8){
-					obj.code = text; //Code comments are special
 				}
 			}
 			//Before we push

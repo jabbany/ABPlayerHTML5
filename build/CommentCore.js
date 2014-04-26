@@ -13,7 +13,6 @@ function CommentFilter(){
 		"5":true,
 		"6":true,
 		"7":true,
-		"8":true,
 		"17":true
 	};
 	this.doModify = function(cmt){
@@ -66,7 +65,7 @@ function CommentFilter(){
 		if(!this.allowTypes[cmtData.mode])
 			return false;
 		/** Create abstract cmt data **/
-		var abstCmtData = {
+		abstCmtData = {
 			text:cmtData.text,
 			mode:cmtData.mode,
 			color:cmtData.color,
@@ -114,8 +113,7 @@ function CommentFilter(){
 	this.setRuntimeFilter = function(f){
 		this.runtime = f;
 	}
-}
-/** 
+}/** 
 Comment Space Allocators Classes
 Licensed Under MIT License
 You may create your own.
@@ -349,8 +347,7 @@ function BottomScrollCommentSpaceAllocator(w,h){
 	this.setBounds = function(w,h){csa.setBounds(w,h);};
 	this.add = function(what){csa.add(what);};
 	this.remove = function(d){csa.remove(d);};
-}
-/******
+}/******
 * Comment Core For HTML5 VideoPlayers
 * Author : Jim Chen
 * Licensing : MIT License
@@ -400,6 +397,7 @@ Array.prototype.binsert = function(what,how){
 /****** Load Core Engine Classes ******/
 function CommentManager(stageObject){
 	var __timer = 0;
+	var lastpos = 0;
 	this.stage = stageObject;
 	this.def = {
 		opacity:1,
@@ -418,9 +416,6 @@ function CommentManager(stageObject){
 		reverse:new ReverseCommentSpaceAllocator(0,0),
 		scrollbtm:new BottomScrollCommentSpaceAllocator(0,0)
 	};
-	/** Precompute the offset width **/
-	this.stage.width = this.stage.offsetWidth;
-	this.stage.height= this.stage.offsetHeight;
 	/** Private **/
 	this.initCmt = function(cmt,data){
 		cmt.className = 'cmt';
@@ -428,7 +423,7 @@ function CommentManager(stageObject){
 		cmt.stime = data.stime;
 		cmt.mode = data.mode;
 		cmt.data = data;
-		if(cmt.mode === 17){
+		if(cmt.mode == 17){
 			
 		}else{
 			cmt.appendChild(document.createTextNode(data.text));
@@ -437,7 +432,7 @@ function CommentManager(stageObject){
 		}
 		if(data.font != null && data.font != '')
 			cmt.style.fontFamily = data.font;
-		if(data.shadow === false && data.shadow != null)
+		if(data.shadow == false && data.shadow != null)
 			cmt.className = 'cmt noshadow';
 		if(data.color == "#000000")
 			cmt.className += ' rshadow';
@@ -447,14 +442,8 @@ function CommentManager(stageObject){
 			cmt.style.opacity = this.def.opacity;
 		if(data.alphaFrom != null)
 			cmt.style.opacity = data.alphaFrom;
-		if(data.border)
-			cmt.style.border = "1px solid #00ffff";
 		cmt.ttl = Math.round(4000 * this.def.globalScale);
-		cmt.dur = cmt.ttl;
-		if(cmt.mode === 1 || cmt.mode === 6 || cmt.mode === 2){
-			cmt.ttl *= this.def.scrollScale;
-			cmt.dur = cmt.ttl;
-		}
+		cmt.dur = Math.round(4000 * this.def.globalScale);
 		return cmt;
 	};
 	this.startTimer = function(){
@@ -515,11 +504,6 @@ CommentManager.prototype.setBounds = function(){
 	for(var comAlloc in this.csa){
 		this.csa[comAlloc].setBounds(this.stage.offsetWidth,this.stage.offsetHeight);
 	}
-	this.stage.width = this.stage.offsetWidth;
-	this.stage.height= this.stage.offsetHeight;
-	// Update 3d perspective
-	this.stage.style.perspective = this.stage.width * Math.tan(40 * Math.PI/180) / 2 + "px";
-	this.stage.style.webkitPerspective = this.stage.width * Math.tan(40 * Math.PI/180) / 2 + "px";
 };
 CommentManager.prototype.init = function(){
 	this.setBounds();
@@ -535,7 +519,6 @@ CommentManager.prototype.time = function(time){
 			return;
 	}else this.lastPos = time;
 	for(;this.position < this.timeline.length;this.position++){
-		if(this.limiter > 0 && this.runline.length > this.limiter) break;
 		if(this.validate(this.timeline[this.position]) && this.timeline[this.position]['stime']<=time) this.sendComment(this.timeline[this.position]);
 		else break;
 	}
@@ -547,13 +530,6 @@ CommentManager.prototype.rescale = function(){
 	}
 };
 CommentManager.prototype.sendComment = function(data){
-	if(data.mode === 8){
-		console.log(data);
-		if(this.scripting){
-			console.log(this.scripting.eval(data.code));
-		}
-		return;
-	}
 	var cmt = document.createElement('div');
 	if(this.filter != null){
 		data = this.filter.doModify(data);
@@ -564,8 +540,6 @@ CommentManager.prototype.sendComment = function(data){
 	cmt.style.width = (cmt.offsetWidth + 1) + "px";
 	cmt.style.height = (cmt.offsetHeight - 3) + "px";
 	cmt.style.left = this.stage.offsetWidth + "px";
-	cmt.w = cmt.offsetWidth;
-	cmt.h = cmt.offsetHeight;
 	if(this.filter != null && !this.filter.beforeSend(cmt)){
 		this.stage.removeChild(cmt);
 		cmt = null;
@@ -584,43 +558,22 @@ CommentManager.prototype.sendComment = function(data){
 			cmt.style.left = data.x + "px";
 			cmt.ttl = Math.round(data.duration * this.def.globalScale);
 			cmt.dur = Math.round(data.duration * this.def.globalScale);
-			if(data.rY !== 0 || data.rZ !== 0){
+			if(data.rY!=0 || data.rZ!=0){
 				/** TODO: revise when browser manufacturers make up their mind on Transform APIs **/
-				var getRotMatrix = function(yrot, zrot) {
-					// Courtesy of @StarBrilliant, re-adapted to look better
-					var DEG2RAD = Math.PI/180;
-					var yr = yrot * DEG2RAD;
-					var zr = zrot * DEG2RAD;
-					var COS = Math.cos;
-					var SIN = Math.sin;
-					var matrix = [
-						COS(yr) * COS(zr)    , COS(yr) * SIN(zr)     , SIN(yr)  , 0, 
-						(-SIN(zr))           , COS(zr)               , 0        , 0, 
-						(-SIN(yr) * COS(zr)) , (-SIN(yr) * SIN(zr))  , COS(yr)  , 0,
-						0                    , 0                     , 0        , 1
-					];
-					//Fix matrix to prevent underflow
-					for(var i = 0; i < matrix.length;i++){
-						if(Math.abs(matrix[i]) < 0.000001){
-							var sign = matrix[i] > 0 ? 1 : -1;
-							matrix[i] = sign * 0.000001;
-						}
-					}
-					return "matrix3d(" + matrix.join(",") + ")";
-				}
 				cmt.style.transformOrigin = "0% 0%";
 				cmt.style.webkitTransformOrigin = "0% 0%";
 				cmt.style.OTransformOrigin = "0% 0%";
 				cmt.style.MozTransformOrigin = "0% 0%";
 				cmt.style.MSTransformOrigin = "0% 0%";
-				cmt.style.transform = getRotMatrix(data.rY, data.rZ);
-				cmt.style.webkitTransform = getRotMatrix(data.rY, data.rZ);
-				cmt.style.OTransform = getRotMatrix(data.rY, data.rZ);
-				cmt.style.MozTransform = getRotMatrix(data.rY, data.rZ);
-				cmt.style.MSTransform = getRotMatrix(data.rY, data.rZ);
+				cmt.style.transform = "rotateY(" + (data.rY > 180 && data.rY < 270?(0-data.rY):data.rY) + "deg) rotateZ(" + (data.rZ > 180 && data.rZ < 270?(0-data.rZ):data.rZ) + "deg)";
+				cmt.style.webkitTransform = "rotateY(" + (data.rY > 180 && data.rY < 270?(0-data.rY):data.rY) + "deg) rotateZ(" + (data.rZ > 180 && data.rZ < 270?(0-data.rZ):data.rZ) + "deg)";
+				cmt.style.OTransform = "rotateY(" + (data.rY > 180 && data.rY < 270?(0-data.rY):data.rY)  + "deg) rotateZ(" + (data.rZ > 180 && data.rZ < 270?(0-data.rZ):data.rZ) + "deg)";
+				cmt.style.MozTransform = "rotateY(" + (data.rY > 180 && data.rY < 270?(0-data.rY):data.rY)  + "deg) rotateZ(" + (data.rZ > 180 && data.rZ < 270?(0-data.rZ):data.rZ) + "deg)";
+				cmt.style.MSTransform = "rotateY(" + (data.rY > 180 && data.rY < 270?(0-data.rY):data.rY)  + "deg) rotateZ(" + (data.rZ > 180 && data.rZ < 270?(0-data.rZ):data.rZ) + "deg)";
 			}
 		}break;
 	}
+	if(data.border) cmt.style.border = "1px solid #00ffff";
 	this.runline.push(cmt);
 };
 CommentManager.prototype.finish = function(cmt){
@@ -639,8 +592,8 @@ CommentManager.prototype.onTimerEvent = function(timePassed,cmObj){
 	for(var i=0;i<cmObj.runline.length;i++){
 		var cmt = cmObj.runline[i];
 		cmt.ttl -= timePassed;
-		if(cmt.mode == 1 || cmt.mode == 2) cmt.style.left = (cmt.ttl / cmt.dur) * (cmObj.stage.width + cmt.w) - cmt.w + "px";
-		else if(cmt.mode == 6) cmt.style.left = (1 - cmt.ttl / cmt.dur) * (cmObj.stage.width + cmt.w) - cmt.w + "px";
+		if(cmt.mode == 1 || cmt.mode == 2) cmt.style.left = (cmt.ttl / cmt.dur) * (cmObj.stage.offsetWidth + cmt.offsetWidth) - cmt.offsetWidth + "px";
+		else if(cmt.mode == 6) cmt.style.left = (1 - cmt.ttl / cmt.dur) * (cmObj.stage.offsetWidth + cmt.offsetWidth) - cmt.offsetWidth + "px";
 		else if(cmt.mode == 4 || cmt.mode == 5 || cmt.mode >= 7){
 			if(cmt.dur == null)
 				cmt.dur = 4000;
