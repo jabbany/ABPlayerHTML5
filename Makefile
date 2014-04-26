@@ -2,7 +2,7 @@ all: clean
 	git submodule update
 	cd core; make clean
 	cd core; git pull origin master
-	cd core; make all
+	cd core; make all-uglify
 	cd src; cp -r * ../build
 	cp core/build/*.js build/
 	
