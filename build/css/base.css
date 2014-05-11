@@ -43,11 +43,10 @@
 }
 
 .ABP-Unit .ABP-Video .ABP-Container .cmt{
-	white-space: nowrap;
+	white-space: pre;
 	padding:3px 0 0 0;margin:0;
 	line-height:100%;
 	font-family:Simhei, Simsun, Heiti, "wqy-zenhei", "MS Mincho", "Meiryo", "Microsoft Yahei", monospace;
-	font-weight:bold;
 	text-decoration:none;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	color:#fff;
