@@ -19,11 +19,21 @@
 					if(e && e.preventDefault)
 						e.preventDefault();
 					var inst = ABP.create(document.getElementById("load-player"), {
-						"src":document.getElementById("new-video"),
+						"src":{
+							"playlist":[
+								{
+									"video":document.getElementById("video-1"),
+									"comments":"comment-otsukimi.xml"
+								},
+								{
+									"video":document.getElementById("video-2"),
+									"comments":"comment-science.xml"
+								}
+							]
+						},
 						"width":800,
 						"height":522
 					});
-					CommentLoader("comment.xml", inst.cmManager);
 					$_("click-load").style.display= "none";
 				});
 			});
@@ -58,9 +68,14 @@
 		<p>ABPlayerHTML5 是一个简单易懂的现代弹幕魔法播放器。这个项目意在取代基于 Flash 的 ABPlayer，同时也希望能为新一代的HTML5弹幕播放器打造一个实现范例。这个播放器將用相对通俗易懂的方法，实现最基础的弹幕播放器功能，以供开发者参照。</p>
 	<h2>Examples / 使用范例</h2>
 	<hr>
-	<video id="new-video" autobuffer="true" data-setup="{}" width="800" height="450">
-		<source src="http://tools.kanoha.org/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
-		<source src="http://tools.kanoha.org/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
+	<video id="video-1" autobuffer="true" data-setup="{}" width="800" height="450">
+		<source src="//static.cdn.moe/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
+		<source src="//static.cdn.moe/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
+		<p>Your browser does not support html5 video!</p>
+	</video>
+	<video id="video-2" style="display:none;" data-setup="{}" width="800" height="450">
+		<source src="//static.cdn.moe/ccltestingvideos/outer_science.webm" type="video/webm">
+		<source src="//static.cdn.moe/ccltestingvideos/outer_science.mp4" type="video/mp4">
 		<p>Your browser does not support html5 video!</p>
 	</video>
 	<div id="load-player"></div>
@@ -82,9 +97,26 @@
 });
 CommentLoader('somecommentfile.xml', inst.cmManager);</code></pre>
 	
-	<p>For ther first parameter you should give a DOM element or a DOM id name. If your element is already an <code>.ABP-Unit</code>, invoking create will clear any existing inner elements and bind a new player on the spot. If the element specified is not a danmaku player, we will append a new danmaku player element to the end of the given element.<br> The <code>src</code> field for the parameters will specify where the video source is. If it's a DOM element we just incorporate it as the video player, if it is a list of URLs we will create a player unit with the sources specified.</p>
+	<p>For ther first parameter you should give a DOM element or a DOM id name. If your element is already an <code>.ABP-Unit</code>, invoking create will clear any existing inner elements and bind a new player on the spot. If the element specified is not a danmaku player, we will append a new danmaku player element to the end of the given element.<br> The <code>src</code> field for the parameters will specify where the video source is. If it's a DOM element we just incorporate it as the video player, if it is a list of URLs we will create a player unit with the sources specified. We also support playlists as demonstrated here by using the following code:</p>
+
+<pre><code>ABP.create(document.getElementById("load-player"), {
+	"src":{
+		"playlist":[
+			{
+				"video":document.getElementById("video-1"),
+				"comments":"comment-otsukimi.xml"
+			},
+			{
+				"video":document.getElementById("video-2"),
+				"comments":"comment-science.xml"
+			}
+		]
+	},
+	"width":800,
+	"height":522
+});</code></pre>
 	
-	<p>The second line of code invokes a load process that reads in danmaku comments through AJAX and pumps them into the comment manager part of the player.</p>
+	<p>This will automatically move to the next video and load the next comment file. It does not cycle through videos (yet). Also instead of providing a <code>"video":Element</code> property, you can also provide a <code>"sources"</code> object with each key as the mime type and each value as the URL.</p>
       </section>
     <hr>
     <h2>Extending / 扩展</h2>
