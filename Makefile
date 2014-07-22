@@ -1,8 +1,8 @@
 all: clean
 	git submodule update
-	cd core; make clean
+	cd core; npm install
 	cd core; git pull origin master
-	cd core; make all-uglify
+	cd core; grunt clean; grunt build
 	cd src; cp -r * ../build
 	cp core/build/*.js build/
 	
