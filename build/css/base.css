@@ -110,8 +110,8 @@
   -moz-user-select: -moz-none;
     -khtml-user-select: none;
     -webkit-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+    -ms-user-select: none;
+      user-select: none;
 }
 .ABP-Unit .ABP-Control:hover{
   opacity:1;
@@ -124,9 +124,6 @@
   width:40px;
   top:0;bottom:0;
   -webkit-transition: background-color 0.2s ease-in-out;
-  -moz-transition: background-color 0.2s ease-in-out;
-  -ms-transition: background-color 0.2s ease-in-out;
-  -o-transition: background-color 0.2s ease-in-out;
   transition: background-color 0.2s ease-in-out;
 }
 

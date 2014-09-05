@@ -1,0 +1,29 @@
+{
+  "name": "abplayer-html5",
+  "description": "Reference player for HTML5 Danmaku comments.",
+  "bugs": {
+    "url": "https://github.com/jabbany/ABPlayerHTML5/issues",
+    "email": "knh.jabbany@gmail.com"
+  },
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/jabbany/ABPlayerHTML5.git"
+  },
+  "author": "Jim Chen <knh.jabbany@gmail.com>",
+  "keywords": ["danmaku", "video", "comments", "ABPlayerHTML5", "弹幕播放器", "CommentCoreLibrary"],
+  "license":"MIT",
+  "version": "0.9.0",
+  "dependencies": {
+    "comment-core-library": "~0.9.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-autoprefixer":   "~0.8.0",
+    "grunt-contrib-copy":   "~0.5.0",
+    "grunt-contrib-concat": "~0.4.0",
+    "grunt-contrib-cssmin": "~0.10.0",
+    "grunt-contrib-uglify": "~0.5.0",
+    "load-grunt-tasks":     "~0.6.0"
+  }
+}
+
