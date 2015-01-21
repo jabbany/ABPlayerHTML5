@@ -121,7 +121,7 @@ var ABP = {
 					var sources = [];
 					for(var mime in plist[id]["sources"]){
 						sources.push(_("source", {
-							"src":plist[id][mime],
+							"src":plist[id]["sources"][mime],
 							"type":mime
 						}));
 					}
