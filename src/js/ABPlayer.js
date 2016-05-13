@@ -179,6 +179,7 @@ var ABP = {
 		]));
 		var bind = ABP.bind(container, params.mobile);
 		if(playlist.length > 0){
+			bind.loader = (new CommentLoader(bind.cmManager)).setParser(BilibiliParser);
 			var currentVideo = playlist[0];
 			bind.gotoNext = function(){
 				var index = playlist.indexOf(currentVideo) + 1;
@@ -196,13 +197,15 @@ var ABP = {
 					});
 				}
 				if(index < danmaku.length && danmaku[index] !== null){
-					CommentLoader(danmaku[index], bind.cmManager);
+					bind.loader.load("GET", danmaku[index]);
 				}
 			}
 			currentVideo.addEventListener("ended", function(){
 				bind.gotoNext();
 			});
-			CommentLoader(danmaku[0], bind.cmManager);
+			if (danmaku.length > 0) {
+			    bind.loader.load("GET", danmaku[0]);
+			}
 		}
 		return bind;
 	}
