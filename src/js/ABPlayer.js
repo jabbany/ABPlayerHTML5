@@ -304,13 +304,13 @@ var ABP = {
 			});
 			video.isBound = true;
 			var lastPosition = 0;
-			if(ABPInst.cmManager){
+			if(ABPInst.cmManager) {
 				ABPInst.cmManager.clear();
 				video.addEventListener("progress", function(){
-					if(lastPosition == video.currentTime){
+					if (lastPosition == video.currentTime) {
 						video.hasStalled = true;
-						ABPInst.cmManager.stopTimer();
-					}else
+						ABPInst.cmManager.stop();
+					} else
 						lastPosition = video.currentTime;
 				});
 				if(window){
@@ -322,13 +322,13 @@ var ABP = {
 				video.addEventListener("timeupdate", function(){
 					if(ABPInst.cmManager.display === false) return;
 					if(video.hasStalled){
-						ABPInst.cmManager.startTimer();
+						ABPInst.cmManager.start();
 						video.hasStalled = false;
 					}
 					ABPInst.cmManager.time(Math.floor(video.currentTime * 1000));
 				});
 				video.addEventListener("play", function(){
-					ABPInst.cmManager.startTimer();
+					ABPInst.cmManager.start();
 					try{
 						var e = this.buffered.end(0);
 						var dur = this.duration;
@@ -345,13 +345,13 @@ var ABP = {
 					}
 				});
 				video.addEventListener("pause", function(){
-					ABPInst.cmManager.stopTimer();
+					ABPInst.cmManager.stop();
 				});
 				video.addEventListener("waiting", function(){
-					ABPInst.cmManager.stopTimer();
+					ABPInst.cmManager.stop();
 				});
 				video.addEventListener("playing",function(){
-					ABPInst.cmManager.startTimer();
+					ABPInst.cmManager.start();
 				});
 			}
 		}
@@ -485,11 +485,11 @@ var ABP = {
 			ABPInst.btnDm.addEventListener("click", function(){
 				if(ABPInst.cmManager.display == false){
 					ABPInst.cmManager.display = true;
-					ABPInst.cmManager.startTimer();
+					ABPInst.cmManager.start();
 				}else{
 					ABPInst.cmManager.display = false;
 					ABPInst.cmManager.clear();
-					ABPInst.cmManager.stopTimer();
+					ABPInst.cmManager.stop();
 				}   
 			}); 
 			ABPInst.barTime.style.width = "0%";
@@ -609,11 +609,11 @@ var ABP = {
 							case "off":{
 								ABPInst.cmManager.display = false;
 								ABPInst.cmManager.clear();
-								ABPInst.cmManager.stopTimer();
+								ABPInst.cmManager.stop();
 							}break;
 							case "on":{
 								ABPInst.cmManager.display = true;
-								ABPInst.cmManager.startTimer();
+								ABPInst.cmManager.start();
 							}break;
 							case "cls":
 							case "clear":{
