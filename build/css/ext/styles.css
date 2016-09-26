@@ -549,7 +549,6 @@ code {
   font-size: 13px;
   margin: 0 4px;
   padding: 4px 6px;
-  -o-border-radius: 2px;
   -khtml-border-radius: 2px;
   border-radius: 2px;
 }
@@ -557,7 +556,6 @@ code {
 pre {
   padding: 8px 15px;
   background: #191919;
-  -o-border-radius: 2px;
   -khtml-border-radius: 2px;
   border-radius: 2px;
   border: 1px solid #121212;
@@ -641,7 +639,6 @@ dt {
 #header nav li a, .pbutton {
   color: white;
   border: 1px solid #09C;
-  -o-border-radius: 2px;
   -khtml-border-radius: 2px;
   border-radius: 2px;
   -webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3), 0px 3px 7px rgba(0, 0, 0, 0.7);
