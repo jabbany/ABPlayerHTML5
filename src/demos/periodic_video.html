@@ -142,10 +142,13 @@
 					
 					switch(Math.round(i / 3)){
 						case 1:
-							CommentLoader("../comment.xml", inst.cmManager);
+							(new CommentLoader(inst.cmManager)).setParser(BilibiliParser).load("GET", "../comment-otsukimi.xml");
+							break;
+						case 0:
+							(new CommentLoader(inst.cmManager)).setParser(BilibiliParser).load("GET", "../comment-science.xml");
 							break;
 						case 3:
-							CommentLoader("hanabi.xml", inst.cmManager);
+							(new CommentLoader(inst.cmManager)).setParser(BilibiliParser).load("GET", "hanabi.xml")
 							break;
 					}
 					//inst.btnPlay.click();
@@ -337,18 +340,19 @@
 
 		</script>
 		<div style="display:none">
-			<video id="v2" autobuffer="false" data-setup="{}">
-				<source src="http://tools.kanoha.org/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
-				<source src="http://tools.kanoha.org/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
+			<video id="v1" autobuffer="true" data-setup="{}">
+				<source src="http://static.cdn.moe/ccltestingvideos/outer_science.webm" type="video/webm">
+				<source src="http://static.cdn.moe/ccltestingvideos/outer_science.mp4" type="video/mp4">
 			</video>
-			<video id="v1" autobuffer="false" data-setup="{}">
+			<video id="v2" autobuffer="true" data-setup="{}">
+				<source src="http://static.cdn.moe/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
+				<source src="http://static.cdn.moe/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
+			</video>
+			<video id="v3" autobuffer="true" data-setup="{}">
 				<source src="http://content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4" type="video/mp4">
 				<source src="http://content.bitsontherun.com/videos/bkaovAYt-27m5HpIu.webm" type="video/webm">
 			</video>
-			<video id="v3" autobuffer="false" data-setup="{}">
-				<source src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
-			</video>
-			<video id="v4" autobuffer="false" data-setup="{}">
+			<video id="v4" autobuffer="true" data-setup="{}">
 				<source src="http://tools.kanoha.org/experimental/demo.mp4" type="video/mp4">
 			</video>
 		</div>

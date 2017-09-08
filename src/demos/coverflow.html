@@ -43,8 +43,9 @@
 					"height":510,
 					"mobile":true
 				});
-				CommentLoader("../comment.xml", inst2.cmManager);
-				CommentLoader("hanabi.xml", inst4.cmManager);
+				(new CommentLoader(inst1.cmManager)).setParser(BilibiliParser).load("GET", "../comment-science.xml");
+				(new CommentLoader(inst2.cmManager)).setParser(BilibiliParser).load("GET", "../comment-otsukimi.xml");
+				(new CommentLoader(inst4.cmManager)).setParser(BilibiliParser).load("GET", "hanabi.xml");
 				$('.coverflow').coverflow();
 			});
 		</script>
@@ -63,16 +64,17 @@
 			});
 		</script>
 		<div style="display:none">
-			<video id="v2" autobuffer="true" data-setup="{}">
-				<source src="http://tools.kanoha.org/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
-				<source src="http://tools.kanoha.org/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
-			</video>
 			<video id="v1" autobuffer="true" data-setup="{}">
-				<source src="http://content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4" type="video/mp4">
-				<source src="http://content.bitsontherun.com/videos/bkaovAYt-27m5HpIu.webm" type="video/webm">
+				<source src="http://static.cdn.moe/ccltestingvideos/outer_science.webm" type="video/webm">
+				<source src="http://static.cdn.moe/ccltestingvideos/outer_science.mp4" type="video/mp4">
+			</video>
+			<video id="v2" autobuffer="true" data-setup="{}">
+				<source src="http://static.cdn.moe/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
+				<source src="http://static.cdn.moe/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
 			</video>
 			<video id="v3" autobuffer="true" data-setup="{}">
-				<source src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+				<source src="http://content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4" type="video/mp4">
+				<source src="http://content.bitsontherun.com/videos/bkaovAYt-27m5HpIu.webm" type="video/webm">
 			</video>
 			<video id="v4" autobuffer="true" data-setup="{}">
 				<source src="http://tools.kanoha.org/experimental/demo.mp4" type="video/mp4">

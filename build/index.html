@@ -44,8 +44,7 @@
           <li class="fork"><a href="https://github.com/jabbany/ABPlayerHTML5">Fork On GitHub</a></li>
           <li class="downloads"><a href="https://github.com/jabbany/ABPlayerHTML5/zipball/master">ZIP</a></li>
           <li class="downloads"><a href="https://github.com/jabbany/ABPlayerHTML5/tarball/master">TAR</a></li>
-          <li class="downloads"><a href="demo.html">Demo</a></li>
-          <li class="title">DOWNLOADS / 下载</li>
+          <li class="title">DOWNLOAD / 下载</li>
         </nav>
       </div><!-- end header -->
 
@@ -57,7 +56,7 @@
           
           <p>一个可扩展的弹幕播放器的HTML5实现范例</p>
           <span class="credits left">Project maintained by / 维护者: <a href="https://github.com/jabbany">jabbany</a></span>
-          <span class="credits right">Theme Author / 介绍页面主题作者: <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+          <span class="credits right">Theme Author / 介绍页面主题作者: <a href="https://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
         <h1>ABPlayerHTML5 - Videos+Danmaku</h1>
@@ -77,22 +76,22 @@
 		<p>Your browser does not support html5 video!</p>
 	</video>
 	<div id="load-player"></div>
-	<a id="click-load" class="pbutton" href="#">Load ABPlayerHTML5 Binding</a><br>
-	<p>To load the ABPlayer code in your web application insert the following lines of code in the <code>&lt;head&gt;</code> area.</p>
-	<pre><code>&lt;link rel="stylesheet" href="css/base.min.css?1" /&gt;
-&lt;script src="js/CommentCoreLibrary.min.js"&gt;&lt;/script&gt;
-&lt;script src="js/ABPlayer.min.js"&gt;&lt;/script&gt;
+	<p><a id="click-load" class="pbutton" href="#">Load ABPlayerHTML5 / 载入 ABPlayerHTML5</a></p>
+	<p>To load the ABPlayer code in your web application insert the following lines of code in the <code>&lt;head&gt;</code> area. 在你的应用中加入ABPlayerHTML5请在 <code>head</code> 元素内引入如下的库。</p>
+	<pre><code>&lt;link rel="stylesheet" href="http://jabbany.github.io/ABPlayerHTML5/build/css/base.min.css" /&gt;
+&lt;script src="http://jabbany.github.io/ABPlayerHTML5/build/js/CommentCoreLibrary.min.js"&gt;&lt;/script&gt;
+&lt;script src="http://jabbany.github.io/ABPlayerHTML5/build/js/ABPlayer.min.js"&gt;&lt;/script&gt;
 </code></pre>
-	<p>Also copy the corresponding files from <code>build/</code>. </p>
+	<p>Or copy the corresponding files from <code>build/</code> into your own project. 如果不想引用 GitHub Host的版本，也可以自行把<code>build/</code>文件夹内相关文件拷贝到你自己的项目中。</p>
 	<p>
-	Then to hook bindings you can use:
+	Then to hook bindings you can use / 你可以通过下方代码绑定 ABPlayerHTML5播放器 :
 	</p>
 	<pre><code>var inst = ABP.create( document.getElementById('load-player'), {
 	'src': document.getElementById('new-video'),
 	'width': 800,
 	'height': 522
 });
-CommentLoader('somecommentfile.xml', inst.cmManager);</code></pre>
+(new CommentLoader(inst.cmManager)).setParser(BilibiliParser).load('GET', 'somecommentfile.xml');</code></pre>
 	
 	<p>For ther first parameter you should give a DOM element or a DOM id name. If your element is already an <code>.ABP-Unit</code>, invoking create will clear any existing inner elements and bind a new player on the spot. If the element specified is not a danmaku player, we will append a new danmaku player element to the end of the given element.<br> The <code>src</code> field for the parameters will specify where the video source is. If it's a DOM element we just incorporate it as the video player, if it is a list of URLs we will create a player unit with the sources specified. We also support playlists as demonstrated here by using the following code:</p>
 
