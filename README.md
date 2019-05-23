@@ -4,7 +4,7 @@
 It is intended as a reference implementation of an HTML5 Danmaku Video Player 
 that uses CommentCoreLibrary as a backing implementation.
 
-Feel free to try out our [demo](http://jabbany.github.io/ABPlayerHTML5/build).
+Feel free to try out our [demo](http://jabbany.github.io/ABPlayerHTML5/demo).
 If you find any bugs, please open an issue in the issue tracker.
 
 ## Support
@@ -52,7 +52,7 @@ Copyright (c) 2014 Jim Chen (http://kanoha.org/), under the
 ABPlayerHTML5是一个ABPlayer的子项目。通过把ABPlayer的核心弹幕类重写成JS来实现一个简单但是能
 高度整合HTML5的原生弹幕播放控件。目前我们支持大部分的移动端和桌面端。
 
-如果你对项目的效果感兴趣，请 **[戳这里](http://jabbany.github.io/ABPlayerHTML5/build)** 来观
+如果你对项目的效果感兴趣，请 **[戳这里](http://jabbany.github.io/ABPlayerHTML5/demo)** 来观
 看本项目在你浏览器下的效果。我们欢迎有关项目呈现BUG的报告。请使用Github自带的issues发布新的Issue。
 
 ## 项目状态
