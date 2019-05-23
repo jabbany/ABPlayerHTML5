@@ -2,25 +2,31 @@ module.exports = (grunt) ->
   require('load-grunt-tasks') grunt
   grunt.file.readJSON('package.json')
   
-  CORE_PATH = 'node_modules/comment-core-library/build'
-  CORE_FILES = [
+  VENDOR_PATH = 'node_modules/comment-core-library/dist'
+  VENDOR_FILES = [
     'CommentCoreLibrary.min.js'
   ]
-  ABP_JS_FILES = [
-    'build/js/ABPMobile.js'
-    'build/js/ABPLibxml.js'
-    'build/js/ABPlayer.js'
+
+  CORE_JS_FILES = [
+    'src/DetectMobile.js'
+    'src/CommentLoader.js'
+    'src/Player.js'
   ]
+
   grunt.initConfig(
+    clean:
+      dist: ['dist']
+
+    concat:
+      default:
+        files:
+          'dist/ABPlayerHTML5.js': CORE_JS_FILES
     # Copy
     copy:
       default:
         files:[
-          {expand: true, cwd:"src/css/", src:['ext/styles.css','*'], dest:'build/css/'}
-          {expand: true, cwd: CORE_PATH , src: CORE_FILES,  dest:'build/js/'}
-          {expand: true, cwd:'src/js/', src: ['*.js'],  dest:'build/js/'}
-          {expand: true, cwd:'src/', src: ['*.html', '*.xml'],  dest:'build/'}
-          {expand: true, cwd:'src/demos', src: ['*/*'],  dest:'build/demos/'}
+          {expand: true, cwd:"src/css/", src:['*'], dest:'dist/css/'}
+          {expand: true, cwd: VENDOR_PATH , src: VENDOR_FILES, dest:'dist/vendor/'}
         ]
     
     # Auto-prefix CSS properties using Can I Use?
@@ -30,21 +36,20 @@ module.exports = (grunt) ->
 
       no_dest:
         # File to output
-        src: ['build/css/base.css','build/css/ext/styles.css']
+        src: ['dist/css/base.css']
 
     # Minify CSS
     cssmin:
       minify:
-        src: ['build/css/base.css']
-        dest: 'build/css/base.min.css'
+        src: ['dist/css/base.css']
+        dest: 'dist/css/base.min.css'
 
     uglify:
       all:
         files:
-          'build/js/ABPlayer.min.js': ABP_JS_FILES
+          'dist/ABPlayerHTML5.min.js': ['dist/ABPlayerHTML5.js']
   )
 
   # Register our tasks
-  grunt.registerTask 'dist', ['copy', 'uglify', 'autoprefixer', 'cssmin']
+  grunt.registerTask 'dist', ['clean', 'concat', 'copy', 'uglify', 'autoprefixer', 'cssmin']
   grunt.registerTask 'default', ['dist']
-

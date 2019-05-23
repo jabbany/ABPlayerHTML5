@@ -3,52 +3,21 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="X-UA-Compatible" value="IE=9">
-		<link rel="stylesheet" href="../css/base.min.css?1" />
-		<title>New Interface Test for ABPlayer</title>
-		<script src="../js/CommentCoreLibrary.min.js"></script>
-		<script src="../js/ABPlayer.min.js"></script>
+		<link rel="stylesheet" href="../../dist/css/base.min.css" />
+		<title>Coverflow Interface Demo</title>
+		<script src="../../dist/vendor/CommentCoreLibrary.min.js"></script>
+		<script src="../../dist/ABPlayerHTML5.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js"></script>
-		<script src="coverflow/coverflow.js"></script>
-		<script src="coverflow/scroll.js"></script>
+		<script src="js/coverflow.js"></script>
+		<script src="js/scroll.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
 		<style>
 		body{
 			background-color:#000;
 			overflow:hidden;
 		}
 		</style>
-		<script type="text/javascript">
-			window.addEventListener("load",function(){
-				var inst1 = ABP.create(document.getElementById("video1"), {
-					"src":document.getElementById("v1"),
-					"width":672,
-					"height":510,
-					"mobile":true
-				});
-				var inst2 = ABP.create(document.getElementById("video2"), {
-					"src":document.getElementById("v2"),
-					"width":672,
-					"height":510,
-					"mobile":true
-				});
-				var inst3 = ABP.create(document.getElementById("video3"), {
-					"src":document.getElementById("v3"),
-					"width":672,
-					"height":510,
-					"mobile":true
-				});
-				var inst4 = ABP.create(document.getElementById("video4"), {
-					"src":document.getElementById("v4"),
-					"width":672,
-					"height":510,
-					"mobile":true
-				});
-				(new CommentLoader(inst1.cmManager)).setParser(BilibiliParser).load("GET", "../comment-science.xml");
-				(new CommentLoader(inst2.cmManager)).setParser(BilibiliParser).load("GET", "../comment-otsukimi.xml");
-				(new CommentLoader(inst4.cmManager)).setParser(BilibiliParser).load("GET", "hanabi.xml");
-				$('.coverflow').coverflow();
-			});
-		</script>
 	</head>
 	<body>
 		<div class="coverflow">
@@ -58,12 +27,7 @@
 			<div id="video4" class="cover"></div>
 		</div>
 
-		<script>
-			$(function() {
-				
-			});
-		</script>
-		<div style="display:none">
+		<div style="display:none;">
 			<video id="v1" autobuffer="true" data-setup="{}">
 				<source src="http://static.cdn.moe/ccltestingvideos/outer_science.webm" type="video/webm">
 				<source src="http://static.cdn.moe/ccltestingvideos/outer_science.mp4" type="video/mp4">
@@ -80,6 +44,5 @@
 				<source src="http://tools.kanoha.org/experimental/demo.mp4" type="video/mp4">
 			</video>
 		</div>
-		
 	</body>
 </html>

@@ -1,87 +1,25 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<title>three.js css3d - periodic video table</title>
-		<style>
-			html, body {
-				height: 100%;
-			}
-
-			body {
-				background-color: #000000;
-				margin: 0;
-				font-family: Helvetica, sans-serif;;
-				overflow: hidden;
-			}
-
-			a {
-				color: #ffffff;
-			}
-
-			#info {
-				position: absolute;
-				width: 100%;
-				color: #ffffff;
-				padding: 5px;
-				font-family: Monospace;
-				font-size: 13px;
-				font-weight: bold;
-				text-align: center;
-				z-index: 1;
-			}
-
-			#menu {
-				position: absolute;
-				bottom: 20px;
-				width: 100%;
-				text-align: center;
-			}
-
-			.element {
-				padding:3px;
-				box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
-				border: 1px solid rgba(127,255,255,0.25);
-				text-align: center;
-				cursor: default;
-			}
-
-			.element:hover {
-				box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
-				border: 1px solid rgba(127,255,255,0.75);
-			}
-
-			button {
-				color: rgba(127,255,255,0.75);
-				background: transparent;
-				outline: 1px solid rgba(127,255,255,0.75);
-				border: 0px;
-				padding: 5px 10px;
-				cursor: pointer;
-			}
-			button:hover {
-				background-color: rgba(0,255,255,0.5);
-			}
-			button:active {
-				color: #000000;
-				background-color: rgba(0,255,255,0.75);
-			}
-		</style>
-	</head>
-	<body>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="../../dist/css/base.min.css" />
+		
+		<!-- External Library -->
 		<script src="http://threejs.org/build/three.min.js"></script>
 		<script src="http://threejs.org/examples/js/libs/tween.min.js"></script>
 		<script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>
 		<script src="http://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
-		<!--Mine-->
-		<link rel="stylesheet" href="../css/base.min.css?1" />
-		<script src="../js/CommentCoreLibrary.min.js"></script>
-		<script src="../js/ABPlayer.min.js"></script>
-		<!--/Mine-->
+		
+		<!-- Local library -->
+		<script src="../../dist/vendor/CommentCoreLibrary.min.js"></script>
+		<script src="../../dist/ABPlayerHTML5.min.js"></script>
+	</head>
+	<body>
 		<div id="container"></div>
-		<div id="info">Adapted From <a href="http://threejs.org" target="_blank">three.js css3d</a> - periodic table. <a href="https://plus.google.com/113862800338869870683/posts/QcFk5HrWran" target="_blank">original author</a>. Modified by jabbany to adapt <a href="http://jabbany.github.io/ABPlayerHTML5/build/">ABPlayerHTML5</a>. It works!</div>
+		<div id="info">Adapted From <a href="http://threejs.org" target="_blank">three.js css3d</a> - periodic table. <a href="https://plus.google.com/113862800338869870683/posts/QcFk5HrWran" target="_blank">original author</a>. Modified by jabbany to adapt <a href="http://jabbany.github.io/ABPlayerHTML5/demo/">ABPlayerHTML5</a>. It works!</div>
 		<div id="menu">
 			<button id="table">TABLE</button>
 			<button id="sphere">SPHERE</button>
@@ -142,16 +80,18 @@
 					
 					switch(Math.round(i / 3)){
 						case 1:
-							(new CommentLoader(inst.cmManager)).setParser(BilibiliParser).load("GET", "../comment-otsukimi.xml");
+							(new CommentLoader(inst.cmManager)).setParser(
+								new BilibiliFormat.XMLParser()).load("GET", "../assets/comment-otsukimi.xml");
 							break;
 						case 0:
-							(new CommentLoader(inst.cmManager)).setParser(BilibiliParser).load("GET", "../comment-science.xml");
+							(new CommentLoader(inst.cmManager)).setParser(
+								new BilibiliFormat.XMLParser()).load("GET", "../assets/comment-science.xml");
 							break;
 						case 3:
-							(new CommentLoader(inst.cmManager)).setParser(BilibiliParser).load("GET", "hanabi.xml")
+							(new CommentLoader(inst.cmManager)).setParser(
+								new BilibiliFormat.XMLParser()).load("GET", "../assets/hanabi.xml")
 							break;
 					}
-					//inst.btnPlay.click();
 					
 					var object = new THREE.CSS3DObject( element );
 					object.position.x = Math.random() * 4000 - 2000;
@@ -161,8 +101,6 @@
 
 					objects.push( object );
 
-					//
-
 					var object = new THREE.Object3D();
 					object.position.x = ( table[ i + 1 ] * 800 ) - 600;
 					object.position.y = - ( table[ i + 2 ] * 700 ) + 400;
@@ -171,12 +109,9 @@
 
 				}
 
-				// sphere
-
 				var vector = new THREE.Vector3();
 
 				for ( var i = 0, l = objects.length; i < l; i ++ ) {
-
 					var phi = Math.acos( -1 + ( 2 * i ) / l );
 					var theta = Math.sqrt( l * Math.PI ) * phi;
 
@@ -187,23 +122,15 @@
 					object.position.z = 800 * Math.cos( phi );
 
 					vector.copy( object.position ).multiplyScalar( 2 );
-
 					object.lookAt( vector );
-
 					targets.sphere.push( object );
-
 				}
-
-				// helix
 
 				var vector = new THREE.Vector3();
 
 				for ( var i = 0, l = objects.length; i < l; i ++ ) {
-
 					var phi = i * 0.5 *  Math.PI;
-
 					var object = new THREE.Object3D();
-
 					object.position.x = 1000 * Math.sin( phi );
 					object.position.y = - ( i * 4 ) + 50;
 					object.position.z = 1000 * Math.cos( phi );
@@ -213,33 +140,24 @@
 					vector.z = object.position.z * 2;
 
 					object.lookAt( vector );
-
 					targets.helix.push( object );
-
 				}
 
 				// grid
 
 				for ( var i = 0; i < objects.length; i ++ ) {
-
 					var object = new THREE.Object3D();
 
 					object.position.x = ( ( i % 5 ) * 400 ) - 800;
 					object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
 					object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
-
 					targets.grid.push( object );
-
 				}
-
-				//
 
 				renderer = new THREE.CSS3DRenderer();
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.domElement.style.position = 'absolute';
 				document.getElementById( 'container' ).appendChild( renderer.domElement );
-
-				//
 
 				controls = new THREE.TrackballControls( camera, renderer.domElement );
 				controls.rotateSpeed = 0.5;
@@ -249,49 +167,34 @@
 
 				var button = document.getElementById( 'table' );
 				button.addEventListener( 'click', function ( event ) {
-
 					transform( targets.table, 2000 );
-
 				}, false );
 
 				var button = document.getElementById( 'sphere' );
 				button.addEventListener( 'click', function ( event ) {
-
 					transform( targets.sphere, 2000 );
-
 				}, false );
 
 				var button = document.getElementById( 'helix' );
 				button.addEventListener( 'click', function ( event ) {
-
 					transform( targets.helix, 2000 );
-
 				}, false );
 
 				var button = document.getElementById( 'grid' );
 				button.addEventListener( 'click', function ( event ) {
-
 					transform( targets.grid, 2000 );
-
 				}, false );
 
 				transform( targets.table, 5000 );
 
-				//
-
 				window.addEventListener( 'resize', onWindowResize, false );
-
 			}
 
 			function transform( targets, duration ) {
-
 				TWEEN.removeAll();
-
 				for ( var i = 0; i < objects.length; i ++ ) {
-
 					var object = objects[ i ];
 					var target = targets[ i ];
-
 					new TWEEN.Tween( object.position )
 						.to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
 						.easing( TWEEN.Easing.Exponential.InOut )
@@ -308,34 +211,23 @@
 					.to( {}, duration * 2 )
 					.onUpdate( render )
 					.start();
-
 			}
 
 			function onWindowResize() {
-
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-
 				renderer.setSize( window.innerWidth, window.innerHeight );
-
 				render();
-
 			}
 
 			function animate() {
-
 				requestAnimationFrame( animate );
-
 				TWEEN.update();
-
 				controls.update();
-
 			}
 
 			function render() {
-
 				renderer.render( scene, camera );
-
 			}
 
 		</script>

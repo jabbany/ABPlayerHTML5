@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>ABPlayerHTML5 - Video Player for danmaku comments</title>
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Project local configuration -->
+    <link href="../dist/css/base.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../dist/vendor/CommentCoreLibrary.min.js" type="text/javascript"></script>
+    <script src="../dist/ABPlayerHTML5.min.js" type="text/javascript"></script>
+    <script src="main.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="header">
+      <nav>
+        <li class="fork"><a href="https://github.com/jabbany/ABPlayerHTML5">Fork On GitHub</a></li>
+        <li class="downloads"><a href="https://github.com/jabbany/ABPlayerHTML5/zipball/master">ZIP</a></li>
+        <li class="downloads"><a href="https://github.com/jabbany/ABPlayerHTML5/tarball/master">TAR</a></li>
+        <li class="title">DOWNLOAD / 下载</li>
+      </nav>
+    </div><!-- end header -->
+
+    <div class="wrapper">
+      <section>
+        <div id="title">
+          <h1>ABPlayerHTML5</h1>
+          <p>一个可扩展的弹幕播放器的HTML5实现范例</p>
+          <span class="credits left">Project maintained by / 维护者: <a href="https://github.com/jabbany">jabbany</a></span>
+          <span class="credits right">Theme Author / 介绍页面主题作者: <a href="https://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+      </section>
+
+      <section>
+        <h1>ABPlayerHTML5 - Videos+Danmaku</h1>
+        <hr>
+        <p>
+          ABPlayerHTML5 is a simplistic modern danmaku video player. It is intended as a replacement for the Flash based ABPlayer and as a catalyst for the new generation of HTML5 danmaku video players. This project implements a sleek minimal video player that serves as a reference implementation.
+        </p>
+        <p>
+          ABPlayerHTML5 是一个简单易懂的现代弹幕魔法播放器。这个项目意在取代基于 Flash 的 ABPlayer，同时也希望能为新一代的HTML5弹幕播放器打造一个实现范例。这个播放器將用相对通俗易懂的方法，实现最基础的弹幕播放器功能，以供开发者参照。
+        </p>
+      </section>
+
+      <section>
+        <h2>Examples / 使用范例</h2>
+        <hr>
+        <video id="video-1" autobuffer="true" data-setup="{}" width="800" height="450">
+          <source src="//static.cdn.moe/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
+          <source src="//static.cdn.moe/ccltestingvideos/otsukimi_recital.webm" type="video/webm">
+          <p>Your browser does not support html5 video!</p>
+        </video>
+        <video id="video-2" style="display:none;" data-setup="{}" width="800" height="450">
+          <source src="//static.cdn.moe/ccltestingvideos/outer_science.webm" type="video/webm">
+          <source src="//static.cdn.moe/ccltestingvideos/outer_science.mp4" type="video/mp4">
+          <p>Your browser does not support html5 video!</p>
+        </video>
+        <div id="load-player"></div>
+        <p>
+          <a id="click-load" class="pbutton" href="#">Load ABPlayerHTML5 / 载入 ABPlayerHTML5</a>
+        </p>
+        <p>
+          To load the ABPlayer code in your web application insert the following lines of code in the <code>&lt;head&gt;</code> area. 在你的应用中加入ABPlayerHTML5请在 <code>head</code> 元素内引入如下的库。
+        </p>
+        <pre><code>&lt;link rel="stylesheet" href="https://jabbany.github.io/ABPlayerHTML5/dist/css/base.min.css" /&gt;
+&lt;script src="https://jabbany.github.io/ABPlayerHTML5/build/dist/vendor/CommentCoreLibrary.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://jabbany.github.io/ABPlayerHTML5/build/dist/ABPlayerHTML5.min.js"&gt;&lt;/script&gt;
+</code></pre>
+        <p>Or copy the corresponding files from <code>build/</code> into your own project. 如果不想引用 GitHub Host的版本，也可以自行把<code>build/</code>文件夹内相关文件拷贝到你自己的项目中。</p>
+        <p>
+        Then to hook bindings you can use / 你可以通过下方代码绑定 ABPlayerHTML5播放器 :
+        </p>
+        <pre><code>var inst = ABP.create( document.getElementById('load-player'), {
+  'src': document.getElementById('new-video'),
+  'width': 800,
+  'height': 522
+});
+(new CommentLoader(inst.cmManager)).setParser(BilibiliParser).load('GET', 'somecommentfile.xml');</code></pre>
+  
+        <p>For ther first parameter you should give a DOM element or a DOM id name. If your element is already an <code>.ABP-Unit</code>, invoking create will clear any existing inner elements and bind a new player on the spot. If the element specified is not a danmaku player, we will append a new danmaku player element to the end of the given element.<br> The <code>src</code> field for the parameters will specify where the video source is. If it's a DOM element we just incorporate it as the video player, if it is a list of URLs we will create a player unit with the sources specified. We also support playlists as demonstrated here by using the following code:</p>
+
+        <pre><code>ABP.create(document.getElementById("load-player"), {
+  "src":{
+    "playlist":[
+      {
+        "video":document.getElementById("video-1"),
+        "comments":"comment-otsukimi.xml"
+      },
+      {
+        "video":document.getElementById("video-2"),
+        "comments":"comment-science.xml"
+      }
+    ]
+  },
+  "width":800,
+  "height":522
+});</code></pre>
+  
+        <p>This will automatically move to the next video and load the next comment file. It does not cycle through videos (yet). Also instead of providing a <code>"video":Element</code> property, you can also provide a <code>"sources"</code> object with each key as the mime type and each value as the URL.</p>
+        <hr>
+      </section>
+
+      <section>
+        <h2>Extending / 扩展</h2>
+        <hr>
+        <p>The basic player does not provide any comment sending abilities. To send comments you should hook onto the <code>inst.txtText</code> text input and capture keypresses to send comments.</p>
+        <p>播放器本体比较弱，同时也不提供发送弹幕的服务。希望发送弹幕的话，请挂载一个监听器到 <code>inst.txtText</code> 元素上来监听键盘动作。</p>
+        <p>For more detailed information about the API please look in <code>docs/</code> / 请阅读<code>docs/</code>中的相应文档来获取API 的更详细信息。</p>
+        <hr>
+      </section>
+      <section>
+        <h2>Flexibility / 灵活性</h2>
+        <hr>
+        <p>ABPlayerHTML5 can be added onto any existing HTML5 library. It is just a special DIV :) ABPlayerHTML5播放器非常的灵活，可以和几乎任何现有的HTML5库一起并用，因为毕竟我们封装在div里面。下面就是几个参考的样例：</p> 
+        <p><a href="coverflow/">Coverflow + Danmaku Demo</a> : Uses coverflow for jQuery + ABPlayerHTML5 Dynamic loading.</p>
+        <p><a href="periodic_table/">Periodical Table of Videos</a> : Uses three.js css3d renderer. Yes, three.js. </p>
+      </section>
+      
+      <section>
+        <h2>License / 许可</h2>
+        <p>Copyright (c) 2019 Jim Chen (https://kanoha.org/), under the MIT license.</p>
+      </section>
+    </div>
+  </body>
+</html>
