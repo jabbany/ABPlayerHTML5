@@ -142,7 +142,7 @@
   background-color: #000000;
   width: 40px;
   top: 0;
-  ottom: 0;
+  bottom: 0;
   transition: background-color 0.2s ease-in-out;
 }
 
