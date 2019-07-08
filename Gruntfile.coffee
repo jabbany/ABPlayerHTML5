@@ -30,13 +30,14 @@ module.exports = (grunt) ->
         ]
     
     # Auto-prefix CSS properties using Can I Use?
-    autoprefixer:
+    postcss:
       options:
-        browsers: ['last 3 versions', 'bb 10', 'android 3']
-
-      no_dest:
+        processors: [
+          require('autoprefixer')
+        ]
+      dist:
         # File to output
-        src: ['dist/css/base.css']
+        src: 'dist/css/*.css'
 
     # Minify CSS
     cssmin:
@@ -50,6 +51,8 @@ module.exports = (grunt) ->
           'dist/ABPlayerHTML5.min.js': ['dist/ABPlayerHTML5.js']
   )
 
+  grunt.loadNpmTasks 'grunt-postcss'
+
   # Register our tasks
-  grunt.registerTask 'dist', ['clean', 'concat', 'copy', 'uglify', 'autoprefixer', 'cssmin']
+  grunt.registerTask 'dist', ['clean', 'concat', 'copy', 'uglify', 'postcss', 'cssmin']
   grunt.registerTask 'default', ['dist']

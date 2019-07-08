@@ -19,19 +19,25 @@
     "弹幕",
     "CommentCoreLibrary"
   ],
+  "browserslist": [
+    "last 1 version",
+    "> 1%",
+    "not dead"
+  ],
   "license": "MIT",
   "version": "0.10.0",
   "dependencies": {
     "comment-core-library": "0.11.0-rc.1"
   },
   "devDependencies": {
+    "autoprefixer": "^9.6.1",
     "grunt": "~1.0.4",
-    "grunt-autoprefixer": "~3.0.4",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "~1.0.1",
     "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-uglify": "~2.0.0",
+    "grunt-postcss": "^0.9.0",
     "load-grunt-tasks": "~3.5.2"
   }
 }
